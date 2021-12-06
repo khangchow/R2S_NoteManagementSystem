@@ -1,23 +1,21 @@
-package com.r2s.notemanagementsystem.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.DialogFragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.databinding.ActivityMainBinding;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
+import com.r2s.notemanagementsystem.view.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity
         //set default selected item
         binding.activityMainNavView.setCheckedItem(R.id.slide_menu_nav_home);
 
-        binding.activityMainToolbar.setTitle(navController.getCurrentDestination().getLabel());
+        getSupportActionBar().setTitle(navController.getCurrentDestination().getLabel());
 
         binding.activityMainNavView.setNavigationItemSelectedListener(this);
     }
@@ -67,6 +65,9 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
         }
+
+        binding.activityMainToolbar
+                .setTitle(navController.getCurrentDestination().getLabel());
 
         binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -82,7 +83,13 @@ public class MainActivity extends AppCompatActivity
         if (binding.activityMainDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             binding.activityMainDrawerLayout.closeDrawer(GravityCompat.START);
         }else {
-            super.onBackPressed();
+            Intent intent = new Intent(this, LoginActivity.class);
+
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+//            AppPrefsUtils.putString(UserConstant.KEY_USER_DATA, null);
+
+            startActivity(intent);
         }
     }
 }
