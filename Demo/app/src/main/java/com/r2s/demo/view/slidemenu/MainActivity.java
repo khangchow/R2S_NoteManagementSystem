@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity
 
         View headerView = binding.activityMainNavView.getHeaderView(0);
 
-        TextView navTvGmail = headerView.findViewById(R.id.nav_header_tv_gmail);
-
-        navTvGmail.setText(user.getEmail());
+//        TextView navTvGmail = headerView.findViewById(R.id.nav_header_tv_gmail);
+//
+//        navTvGmail.setText(user.getEmail());
     }
 
     /**

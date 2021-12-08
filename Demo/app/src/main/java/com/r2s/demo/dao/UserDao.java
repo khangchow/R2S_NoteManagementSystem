@@ -14,10 +14,12 @@ import java.util.List;
 
 @Dao
 public interface UserDao {
-
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertUser (User user);
 
     @Update
     void updateUser (User user);
+
+    @Query("Select * from user_table")
+    LiveData<List<User>> getAllUsers();
 }
