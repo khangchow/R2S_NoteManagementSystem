@@ -1,69 +1,81 @@
 package com.r2s.notemanagementsystem.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.r2s.notemanagementsystem.R;
+import com.r2s.notemanagementsystem.databinding.RowStatusListBinding;
 import com.r2s.notemanagementsystem.model.Status;
 
 import java.util.List;
+import java.lang.String;
 
 public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusViewHolder> {
-    private Context context;
-    private List<Status> mStatusList;
 
-    public StatusAdapter(Context context) {
-        this.context = context;
+    private List<Status> mStatuses;
+
+    public StatusAdapter(List<Status> mStatuses) {
+        this.mStatuses = mStatuses;
     }
 
+    /**
+     * Create new views
+     * @param parent
+     * @param viewType
+     * @return new view
+     */
     @NonNull
     @Override
     public StatusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.row_status_list, parent, false);
-        return new StatusViewHolder(view);
+        // Return a new holder instance
+        return new StatusViewHolder(RowStatusListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
+    /**
+     * Replace the contents of a view
+     * @param holder the viewHolder
+     * @param position the view position in the viewHolder list
+     */
     @Override
     public void onBindViewHolder(@NonNull StatusViewHolder holder, int position) {
-        Status status = mStatusList.get(position);
-
-        holder.tvStatusName.setText(status.getName());
-        holder.tvStatusCreatedDate.setText(status.getCreatedDate());
-        holder.tvStatusAuthorId.setText(status.getAuthorId());
+        holder.bind(mStatuses.get(position));
     }
 
+    /**
+     * Return the size of your dataset
+     * @return size of your dataset
+     */
     @Override
     public int getItemCount() {
-        return mStatusList.size();
+        return mStatuses.size();
     }
 
-    public void setTaks(List<Status> statusList) {
-        mStatusList = statusList;
+    public void setStatuses(List<Status> statusList) {
+        mStatuses = statusList;
+
         notifyDataSetChanged();
     }
 
-    public List<Status> getTasks() {
-        return mStatusList;
+    public List<Status> getStatuses() {
+        return mStatuses;
     }
 
     public class StatusViewHolder extends RecyclerView.ViewHolder {
-        TextView tvStatusName;
-        TextView tvStatusCreatedDate;
-        TextView tvStatusAuthorId;
+        private RowStatusListBinding binding;
 
-        public StatusViewHolder(@NonNull View viewItem) {
-            super(viewItem);
+        public StatusViewHolder(@NonNull RowStatusListBinding itemView) {
+            super(itemView.getRoot());
 
-            tvStatusName = viewItem.findViewById(R.id.tv_status_name);
-            tvStatusCreatedDate = viewItem.findViewById(R.id.tv_status_created_date);
-            tvStatusAuthorId = viewItem.findViewById(R.id.tv_status_author_id);
+            binding = itemView;
+        }
+
+        public void bind(Status status) {
+            binding.tvStatusName.setText(status.getName());
+            binding.tvStatusCreatedDate.setText(status.getCreatedDate());
+            binding.tvStatusAuthorId.setText(String.valueOf(status.getAuthorId()));
         }
     }
 }

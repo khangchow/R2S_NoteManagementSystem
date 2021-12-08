@@ -16,86 +16,86 @@ import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.r2s.notemanagementsystem.R;
+import com.r2s.notemanagementsystem.adapter.PriorityAdapter;
 import com.r2s.notemanagementsystem.constant.PriorityConstant;
+import com.r2s.notemanagementsystem.databinding.DialogPriorityBinding;
 import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
-public class PriorityDialog extends DialogFragment {
-    private EditText mPriorityName;
-    private Button btnAdd;
-    private Button btnClose;
+public class PriorityDialog extends DialogFragment implements View.OnClickListener {
+
     private PriorityViewModel mPriorityViewModel;
-    private int mPriorityId;
-    private Intent intent;
+    private DialogPriorityBinding binding;
+    private PriorityAdapter mPriorityAdapter;
+    private List<Priority> mPriorities = new ArrayList<>();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public static String TAG = "PriorityDialog";
 
-        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
+    public static PriorityDialog newInstance() {
+        return new PriorityDialog();
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.dialog_priority, container, false);
+        binding = DialogPriorityBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mPriorityName = view.findViewById(R.id.et_priority);
-        btnAdd = view.findViewById(R.id.btn_add_priority);
-        btnClose = view.findViewById(R.id.btn_close_priority);
+        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
+        mPriorityAdapter = new PriorityAdapter(mPriorities);
 
-        if (getArguments() != null) {
-            mPriorityName.setText(getArguments().getString("priority_name"));
-        }
-
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String currentDate = getCurrentLocalDateTimeStamp();
-                Priority priority = new Priority(mPriorityName.getText().toString(), LocalDateTime.now().toString(), 1);
-
-                Executors.newSingleThreadExecutor().execute(() -> {
-                    if (!intent.hasExtra(PriorityConstant.UPDATE_Priority_Id)) {
-                        mPriorityViewModel.insertPriority(priority);
-                    } else {
-                        priority.setId(mPriorityId);
-                        mPriorityViewModel.updatePriority(priority);
-                    }
-                });
-
-                Toast.makeText(getActivity(), mPriorityName.getText().toString(), Toast.LENGTH_SHORT).show();
-                dismiss();
-            }
-        });
-
-        btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Objects.requireNonNull(getDialog()).dismiss();
-            }
-        });
+        setUpViewModel();
+        setOnClicks();
     }
 
-    private void populateUI(Priority priority) {
-        if (priority == null) {
-            return;
-        }
+    public void setOnClicks() {
+        binding.btnAddPriority.setOnClickListener(this);
+        binding.btnClosePriority.setOnClickListener(this);
+    }
 
-        mPriorityName.setText(priority.getName());
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_add_priority:
+                String currentDate = getCurrentLocalDateTimeStamp();
+                Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, 1);
+
+                mPriorityViewModel.insertPriority(priority);
+
+                Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
+                dismiss();
+                break;
+            case R.id.btn_close_priority:
+                dismiss();
+                break;
+        }
+    }
+
+    private void setUpViewModel() {
+        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+            mPriorityAdapter.setPriorities(priorities);
+        });
     }
 
     public String getCurrentLocalDateTimeStamp() {
-        return LocalDateTime.now()
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

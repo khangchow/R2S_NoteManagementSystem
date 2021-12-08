@@ -4,27 +4,39 @@ import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 import com.r2s.notemanagementsystem.model.Status;
 import com.r2s.notemanagementsystem.repository.StatusRepository;
 
+import java.util.List;
+
 public class StatusViewModel extends AndroidViewModel {
-    private StatusRepository mStatusRepo;
+
+    private StatusRepository mStatusRepository;
+
+    private LiveData<List<Status>> mStatuses;
 
     public StatusViewModel(@NonNull Application application) {
         super(application);
-        this.mStatusRepo = new StatusRepository(application);
+        this.mStatusRepository = new StatusRepository(application);
+
+        this.mStatuses = mStatusRepository.getAllStatuses();
     }
 
-    public void insertStatus(Status status) {
-        mStatusRepo.insertStatus(status);
+    public LiveData<List<Status>> getAllStatuses() {
+        return mStatuses;
     }
 
-    public void updateStatus(Status status) {
-        mStatusRepo.updateStatus(status);
+    public void insertStatus(Status priority) {
+        mStatusRepository.insertStatus(priority);
     }
 
-    public void deleteStatus(Status status) {
-        mStatusRepo.deleteStatus(status);
+    public void updateStatus(Status priority) {
+        mStatusRepository.updateStatus(priority);
+    }
+
+    public void deleteStatus(Status priority) {
+        mStatusRepository.deleteStatus(priority);
     }
 }

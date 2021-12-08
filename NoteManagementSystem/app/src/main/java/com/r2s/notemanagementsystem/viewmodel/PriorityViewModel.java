@@ -13,11 +13,13 @@ import java.util.List;
 
 public class PriorityViewModel extends AndroidViewModel {
     private PriorityRepository mPriorityRepository;
+
     private LiveData<List<Priority>> mPriorities;
 
     public PriorityViewModel(@NonNull Application application) {
         super(application);
         this.mPriorityRepository = new PriorityRepository(application);
+
         this.mPriorities = mPriorityRepository.getAllPriorities();
     }
 

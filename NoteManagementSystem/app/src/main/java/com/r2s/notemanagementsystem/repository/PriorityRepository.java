@@ -18,7 +18,9 @@ public class PriorityRepository {
 
     public PriorityRepository(Context context) {
         this.mDb = AppDatabase.getInstance(context);
+
         this.mPriorityDao = mDb.getPriorityDao();
+
         this.mPriorities = mPriorityDao.getAll();
     }
 
@@ -27,19 +29,19 @@ public class PriorityRepository {
     }
 
     public void insertPriority(Priority priority) {
-        Executors.newSingleThreadExecutor().execute(() -> {
+        Executors.newSingleThreadScheduledExecutor().execute(() -> {
             mPriorityDao.insertPriority(priority);
         });
     }
 
     public void updatePriority(Priority priority) {
-        Executors.newSingleThreadExecutor().execute(() -> {
+        Executors.newSingleThreadScheduledExecutor().execute(() -> {
             mPriorityDao.updatePriority(priority);
         });
     }
 
     public void deletePriority(Priority priority) {
-        Executors.newSingleThreadExecutor().execute(() -> {
+        Executors.newSingleThreadScheduledExecutor().execute(() -> {
             mPriorityDao.deletePriority(priority);
         });
     }

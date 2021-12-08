@@ -1,25 +1,23 @@
 package com.r2s.notemanagementsystem.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.r2s.notemanagementsystem.R;
+import com.r2s.notemanagementsystem.databinding.RowPriorityListBinding;
 import com.r2s.notemanagementsystem.model.Priority;
 
 import java.util.List;
 
 public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.PriorityViewHolder> {
-    private Context context;
-    private List<Priority> mPriorityList;
 
-    public PriorityAdapter(Context context) {
-        this.context = context;
+    private List<Priority> mPriorities;
+
+    public PriorityAdapter(List<Priority> mPriorities) {
+        this.mPriorities = mPriorities;
     }
 
     /**
@@ -31,13 +29,8 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     @NonNull
     @Override
     public PriorityViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
-
-        // Inflate the custom layout
-        View view = layoutInflater.inflate(R.layout.row_priority_list, parent, false);
-
         // Return a new holder instance
-        return new PriorityViewHolder(view);
+        return new PriorityViewHolder(RowPriorityListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     /**
@@ -47,11 +40,7 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
      */
     @Override
     public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
-        Priority priority = mPriorityList.get(position);
-
-        holder.tvPriorityName.setText(priority.getName());
-        holder.tvPriorityCreatedDate.setText(priority.getCreatedDate());
-        holder.tvAuthorId.setText(String.valueOf(priority.getAuthorId()));
+        holder.bind(mPriorities.get(position));
     }
 
     /**
@@ -60,29 +49,32 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
      */
     @Override
     public int getItemCount() {
-        return mPriorityList.size();
+        return mPriorities.size();
     }
 
-    public void setTasks(List<Priority> priorityList) {
-        mPriorityList = priorityList;
+    public void setPriorities(List<Priority> mPriorities) {
+        this.mPriorities = mPriorities;
+
         notifyDataSetChanged();
     }
 
-    public List<Priority> getTasks() {
-        return mPriorityList;
+    public List<Priority> getPriorities() {
+        return mPriorities;
     }
 
-    public class PriorityViewHolder extends RecyclerView.ViewHolder {
-        TextView tvPriorityName;
-        TextView tvPriorityCreatedDate;
-        TextView tvAuthorId;
+    protected class PriorityViewHolder extends RecyclerView.ViewHolder {
+        private RowPriorityListBinding binding;
 
-        public PriorityViewHolder(@NonNull View viewItem) {
-            super(viewItem);
+        public PriorityViewHolder(@NonNull RowPriorityListBinding itemView) {
+            super(itemView.getRoot());
 
-            tvPriorityName = viewItem.findViewById(R.id.tv_priority_name);
-            tvPriorityCreatedDate = viewItem.findViewById(R.id.tv_priority_created_date);
-            tvAuthorId = viewItem.findViewById(R.id.tv_priority_author_id);
+            binding = itemView;
+        }
+
+        public void bind(Priority priority) {
+            binding.tvPriorityName.setText(priority.getName());
+            binding.tvPriorityCreatedDate.setText(priority.getCreatedDate());
+            binding.tvPriorityAuthorId.setText(String.valueOf(priority.getAuthorId()));
         }
     }
 }
