@@ -1,15 +1,26 @@
 package com.r2s.demo.view.slidemenu;
 
+import android.app.Dialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.r2s.demo.R;
+import com.r2s.demo.view.PriorityDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,7 +28,8 @@ import com.r2s.demo.R;
  * create an instance of this fragment.
  */
 public class PriorityFragment extends Fragment {
-    private Button btnNew;
+    private FloatingActionButton fabPriority;
+    private RecyclerView mPriorityRecyclerView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,4 +78,24 @@ public class PriorityFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_priority, container, false);
     }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        fabPriority = view.findViewById(R.id.fab_priority);
+
+        fabPriority.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.action_priorityFragment_to_priorityDialog);
+            }
+        });
+
+        mPriorityRecyclerView = view.findViewById(R.id.rv_priority);
+//        mPriorityRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+    }
+
+
 }

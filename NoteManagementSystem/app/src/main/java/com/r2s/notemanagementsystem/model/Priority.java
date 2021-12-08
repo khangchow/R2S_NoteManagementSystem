@@ -1,4 +1,4 @@
-package com.r2s.demo.model;
+package com.r2s.notemanagementsystem.model;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

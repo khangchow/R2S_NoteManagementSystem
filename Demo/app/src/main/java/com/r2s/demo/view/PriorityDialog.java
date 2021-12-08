@@ -11,6 +11,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.r2s.demo.R;
 
@@ -18,16 +21,21 @@ import java.util.Objects;
 
 public class PriorityDialog extends DialogFragment {
 
-    private EditText etPriority;
+    private EditText mEditText;
     private Button btnAdd;
     private Button btnClose;
 
-    public static PriorityDialog newInstance(String data) {
+    public static PriorityDialog newInstance(String title) {
         PriorityDialog priorityDialog = new PriorityDialog();
         Bundle args = new Bundle();
-        args.putString("data", data);
+        args.putString("title", title);
         priorityDialog.setArguments(args);
         return priorityDialog;
+    }
+
+    // 1. Defines the listener interface with a method passing back data result.
+    public interface PriorityDialogListener {
+        void onFinishEditDialog(String inputText);
     }
 
     @Nullable
@@ -40,14 +48,19 @@ public class PriorityDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        etPriority = view.findViewById(R.id.et_priority);
+        mEditText = view.findViewById(R.id.et_priority);
         btnAdd = view.findViewById(R.id.btn_add);
         btnClose = view.findViewById(R.id.btn_close);
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Update Priority!", Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("amount", "Welcome back to Android");
+                Navigation.findNavController(view).navigate(R.id.action_priorityDialog_to_priorityFragment, bundle);
+
+                Toast.makeText(getActivity(), mEditText.getText().toString(), Toast.LENGTH_SHORT).show();
             }
         });
 
