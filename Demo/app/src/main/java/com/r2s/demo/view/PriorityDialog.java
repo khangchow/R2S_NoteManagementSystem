@@ -91,4 +91,10 @@ public class PriorityDialog extends DialogFragment {
         return LocalDateTime.now()
                 .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
+
+    public interface onDialogFinishCallback {
+        void refreshRecyclerView();
+    }
+
+
 }

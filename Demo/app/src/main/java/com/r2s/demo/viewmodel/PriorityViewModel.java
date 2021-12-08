@@ -12,12 +12,13 @@ import com.r2s.demo.repository.PriorityRepository;
 import java.util.List;
 
 public class PriorityViewModel extends AndroidViewModel {
-    private PriorityRepository mPriorityRepo;
+    private PriorityRepository mPriorityRepository;
     private LiveData<List<Priority>> mPriorities;
 
     public PriorityViewModel(@NonNull Application application) {
         super(application);
-        this.mPriorityRepo = new PriorityRepository(application);
+        this.mPriorityRepository = new PriorityRepository(application);
+        this.mPriorities = mPriorityRepository.getAllPriorities();
     }
 
     public LiveData<List<Priority>> getAllPriorities() {
@@ -25,14 +26,14 @@ public class PriorityViewModel extends AndroidViewModel {
     }
 
     public void insertPriority(Priority priority) {
-        mPriorityRepo.insertPriority(priority);
+        mPriorityRepository.insertPriority(priority);
     }
 
     public void updatePriority(Priority priority) {
-        mPriorityRepo.updatePriority(priority);
+        mPriorityRepository.updatePriority(priority);
     }
 
     public void deletePriority(Priority priority) {
-        mPriorityRepo.deletePriority(priority);
+        mPriorityRepository.deletePriority(priority);
     }
 }

@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -86,7 +87,7 @@ public class PriorityFragment extends Fragment {
             mPriorityName = getArguments().getString("priority_name");
             mPriorityCreatedDate = getArguments().getString("priority_created_date");
         }
-        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
+        mPriorityViewModel = new ViewModelProvider(requireActivity()).get(PriorityViewModel.class);
     }
 
     @Override
@@ -116,6 +117,11 @@ public class PriorityFragment extends Fragment {
         // Initialize the Adapter and attach it to the RecyclerView
         mPriorityAdapter = new PriorityAdapter(this.getContext());
         mPriorityRecyclerView.setAdapter(mPriorityAdapter);
+
+        mPriorityViewModel = new ViewModelProvider(requireActivity()).get(PriorityViewModel.class);
+        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+            mPriorityAdapter.setTasks(priorities);
+        });
 
         mDb = Room.databaseBuilder(requireContext(), AppDatabase.class, "appdb").build();
 
@@ -148,11 +154,14 @@ public class PriorityFragment extends Fragment {
     }
 
     public void retrieveTasks() {
-        Executors.newSingleThreadExecutor().execute(() -> {
-            List<Priority> priorityList = mDb.getPriorityDao().getAll();
-            getActivity().runOnUiThread(() -> {
-                mPriorityAdapter.setTasks(priorityList);
-            });
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                final List<Priority> priorities = mDb.getPriorityDao().getAll();
+                runOnUiThread(new Runnable() {
+                    
+                })
+            }
         });
     }
 }

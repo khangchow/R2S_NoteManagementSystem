@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.constant.PriorityConstant;
@@ -19,6 +21,7 @@ import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 import java.util.concurrent.Executors;
 
@@ -33,6 +36,8 @@ public class PriorityDialog extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
     }
 
     @Nullable
@@ -56,6 +61,7 @@ public class PriorityDialog extends DialogFragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String currentDate = getCurrentLocalDateTimeStamp();
                 Priority priority = new Priority(mPriorityName.getText().toString(), LocalDateTime.now().toString(), 1);
 
                 Executors.newSingleThreadExecutor().execute(() -> {
@@ -66,6 +72,9 @@ public class PriorityDialog extends DialogFragment {
                         mPriorityViewModel.updatePriority(priority);
                     }
                 });
+
+                Toast.makeText(getActivity(), mPriorityName.getText().toString(), Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 
@@ -83,5 +92,10 @@ public class PriorityDialog extends DialogFragment {
         }
 
         mPriorityName.setText(priority.getName());
+    }
+
+    public String getCurrentLocalDateTimeStamp() {
+        return LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }
