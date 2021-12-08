@@ -12,11 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.r2s.demo.R;
 import com.r2s.demo.model.Priority;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.PriorityViewHolder> {
     private Context context;
-    private List<Priority> mPriorityList;
+    private List<Priority> mPriorityList = new ArrayList<>();;
 
     public PriorityAdapter(Context context) {
         this.context = context;
@@ -49,9 +51,13 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
         Priority priority = mPriorityList.get(position);
 
-        holder.tvPriorityName.setText(priority.getName());
-        holder.tvPriorityCreatedDate.setText(priority.getCreatedDate());
-        holder.tvAuthorId.setText(String.valueOf(priority.getAuthorId()));
+        String priorityName = context.getString(R.string.string_priority_name, priority.getName());
+        String priorityCreatedDate = context.getString(R.string.string_priority_created_date,priority.getCreatedDate());
+        String priorityAuthorId = context.getString(R.string.string_priority_author_id, String.valueOf(priority.getAuthorId()));
+
+        holder.tvPriorityName.setText(priorityName);
+        holder.tvPriorityCreatedDate.setText(priorityCreatedDate);
+        holder.tvAuthorId.setText(priorityAuthorId);
     }
 
     /**

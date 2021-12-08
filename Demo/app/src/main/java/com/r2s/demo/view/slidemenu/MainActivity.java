@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This method receives data from login avtivity and set them to views
+     * This method receives data from login activity and set them to views
      */
     private void setUserDataToHeader() {
         user = new Gson().fromJson(AppPrefsUtils.getString(UserConstant.KEY_USER_DATA), User.class);

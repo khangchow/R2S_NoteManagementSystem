@@ -1,5 +1,6 @@
 package com.r2s.demo.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,19 +12,28 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.fragment.NavHostFragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.r2s.demo.R;
+import com.r2s.demo.constant.PriorityConstant;
+import com.r2s.demo.model.Priority;
+import com.r2s.demo.viewmodel.PriorityViewModel;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.util.concurrent.Executors;
 
 public class PriorityDialog extends DialogFragment {
 
-    private EditText mEditText;
+    private EditText mPriorityName;
     private Button btnAdd;
     private Button btnClose;
+
+    private PriorityViewModel mPriorityViewModel;
+    private int mPriorityId;
+    private Intent intent;
 
     public static PriorityDialog newInstance(String title) {
         PriorityDialog priorityDialog = new PriorityDialog();
@@ -33,9 +43,11 @@ public class PriorityDialog extends DialogFragment {
         return priorityDialog;
     }
 
-    // 1. Defines the listener interface with a method passing back data result.
-    public interface PriorityDialogListener {
-        void onFinishEditDialog(String inputText);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
     }
 
     @Nullable
@@ -48,19 +60,22 @@ public class PriorityDialog extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mEditText = view.findViewById(R.id.et_priority);
+        mPriorityName = view.findViewById(R.id.et_priority);
         btnAdd = view.findViewById(R.id.btn_add);
         btnClose = view.findViewById(R.id.btn_close);
-
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Bundle bundle = new Bundle();
-                bundle.putString("amount", "Welcome back to Android");
-                Navigation.findNavController(view).navigate(R.id.action_priorityDialog_to_priorityFragment, bundle);
+                String currentDate = getCurrentLocalDateTimeStamp();
+                Priority priority = new Priority(mPriorityName.getText().toString(), currentDate, 1);
 
-                Toast.makeText(getActivity(), mEditText.getText().toString(), Toast.LENGTH_SHORT).show();
+                Executors.newSingleThreadExecutor().execute(() -> {
+                    mPriorityViewModel.insertPriority(priority);
+                });
+
+                Toast.makeText(getActivity(), mPriorityName.getText().toString(), Toast.LENGTH_SHORT).show();
+                dismiss();
             }
         });
 
@@ -70,5 +85,10 @@ public class PriorityDialog extends DialogFragment {
                 Objects.requireNonNull(getDialog()).dismiss();
             }
         });
+    }
+
+    public String getCurrentLocalDateTimeStamp() {
+        return LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

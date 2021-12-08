@@ -20,7 +20,9 @@
         </activity>
         <activity
             android:name=".view.slidemenu.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true">
+
+        </activity>
     </application>
 
 </manifest>
