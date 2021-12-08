@@ -15,6 +15,12 @@
         <action
             android:id="@+id/action_homeFragment_to_testFragment"
             app:destination="@id/testFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_priorityFragment"
+            app:destination="@+id/priorityFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -32,6 +38,24 @@
         tools:layout="@layout/fragment_test" >
         <action
             android:id="@+id/action_testFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/priorityFragment"
+        android:name="com.r2s.demo.view.slidemenu.PriorityFragment"
+        android:label="Priority Form"
+        tools:layout="@layout/fragment_priority" >
+        <action
+            android:id="@+id/action_priorityFragment_to_homeFragment"
+            app:destination="@+id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statusFragment"
+        android:name="com.r2s.demo.view.slidemenu.StatusFragment"
+        android:label="Status Form"
+        tools:layout="@layout/fragment_status" >
+        <action
+            android:id="@+id/action_statusFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 </navigation>

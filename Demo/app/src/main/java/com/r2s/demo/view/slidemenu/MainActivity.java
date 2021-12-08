@@ -18,7 +18,6 @@ import com.google.gson.Gson;
 import com.r2s.demo.R;
 import com.r2s.demo.constant.UserConstant;
 import com.r2s.demo.databinding.ActivityMainBinding;
-import com.r2s.demo.local.AppPrefs;
 import com.r2s.demo.model.User;
 import com.r2s.demo.utils.AppPrefsUtils;
 import com.r2s.demo.view.LoginActivity;
@@ -98,7 +97,12 @@ public class MainActivity extends AppCompatActivity
                 break;
 
             case R.id.slide_menu_nav_priority:
-                navController.navigate(R.id.action_homeFragment_to_testFragment);
+                navController.navigate(R.id.action_homeFragment_to_priorityFragment);
+
+                break;
+
+            case R.id.slide_menu_nav_status:
+                navController.navigate(R.id.action_homeFragment_to_statusFragment);
 
                 break;
         }

@@ -1,4 +1,4 @@
-package com.r2s.demo;
+package com.r2s.demo.view.slidemenu;
 
 import android.os.Bundle;
 
@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.r2s.demo.R;
+
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PriorityFragment#newInstance} factory method to
+ * Use the {@link StatusFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PriorityFragment extends Fragment {
+public class StatusFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +26,7 @@ public class PriorityFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public PriorityFragment() {
+    public StatusFragment() {
         // Required empty public constructor
     }
 
@@ -34,11 +36,11 @@ public class PriorityFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment PriorityFragment.
+     * @return A new instance of fragment StatusFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PriorityFragment newInstance(String param1, String param2) {
-        PriorityFragment fragment = new PriorityFragment();
+    public static StatusFragment newInstance(String param1, String param2) {
+        StatusFragment fragment = new StatusFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +61,6 @@ public class PriorityFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_priority, container, false);
+        return inflater.inflate(R.layout.fragment_status, container, false);
     }
 }
