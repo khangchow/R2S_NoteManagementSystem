@@ -1,5 +1,6 @@
 package com.r2s.notemanagementsystem.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,7 +14,7 @@ import java.util.List;
 @Dao
 public interface PriorityDao {
     @Query("SELECT * FROM priority_table")
-    List<Priority> getAll();
+    LiveData<List<Priority>> getAll();
 
     @Insert
     void insertPriority(Priority priority);

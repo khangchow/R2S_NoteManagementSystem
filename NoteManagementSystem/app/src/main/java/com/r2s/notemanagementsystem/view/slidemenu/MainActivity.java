@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This method set up navigation drawer mewnu
+     * This method set up navigation drawer menu
      */
     private void setUpNavigationDrawerMenu() {
         binding.activityMainNavView.bringToFront();
