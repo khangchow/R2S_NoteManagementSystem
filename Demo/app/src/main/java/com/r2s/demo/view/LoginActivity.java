@@ -45,8 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.button:
-                User user = new User(0, binding.editTextTextPersonName.getText().toString()
-                            , binding.editTextTextPersonName2.getText().toString());
+                User user = new User(0, binding.editTextTextPersonName.getText().toString());
 
                 AppPrefsUtils.putString(UserConstant.KEY_USER_DATA, new Gson().toJson(user));
 

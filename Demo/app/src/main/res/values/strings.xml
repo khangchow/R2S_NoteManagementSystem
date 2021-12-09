@@ -4,4 +4,23 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="open_priority_dialog">Open Priority Dialog</string>
+    <string name="open_status_dialog">Open Status Dialog</string>
+
+    <string name="add">Add</string>
+    <string name="close">Close</string>
+
+    <string name="priority_form">Priority Form</string>
+    <string name="status_form">Status Form</string>
+
+    <string name="priority_name">PriorityName</string>
+    <string name="priority_created_date">PriorityCreatedDate</string>
+    <string name="author_id">AuthorId</string>
+
+    <string name="status_created_date">StatusCreatedDate</string>
+    <string name="status_name">StatusName</string>
+
+    <string name="string_priority_name">Name: %1$s</string>
+    <string name="string_priority_created_date">Created date: %1$s </string>
+    <string name="string_priority_author_id">Author Id: %1$s </string>
 </resources>
