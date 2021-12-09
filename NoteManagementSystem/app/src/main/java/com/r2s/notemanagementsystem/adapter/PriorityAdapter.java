@@ -1,23 +1,36 @@
 package com.r2s.notemanagementsystem.adapter;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.databinding.RowPriorityListBinding;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.view.slidemenu.PriorityDialog;
 
 import java.util.List;
 
 public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.PriorityViewHolder> {
 
     private List<Priority> mPriorities;
+    private Context mContext;
 
-    public PriorityAdapter(List<Priority> mPriorities) {
+    /**
+     * Constructor with 2 parameters
+     * @param mPriorities List<Priority>
+     * @param context Context
+     */
+    public PriorityAdapter(List<Priority> mPriorities, Context context) {
         this.mPriorities = mPriorities;
+        this.mContext = context;
     }
 
     /**
@@ -41,6 +54,23 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     @Override
     public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
         holder.bind(mPriorities.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("priority_id", mPriorities.get(holder.getAdapterPosition()).getId());
+                bundle.putString("priority_name", mPriorities.get(holder.getAdapterPosition()).getName());
+
+                final PriorityDialog priorityDialog = new PriorityDialog();
+                priorityDialog.setArguments(bundle);
+
+                FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                priorityDialog.show(fm, "PriorityDialog");
+            }
+        });
     }
 
     /**
@@ -52,18 +82,28 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         return mPriorities.size();
     }
 
+    /**
+     * This method updates the data list and notify the changes
+     * @param mPriorities List<Priority>
+     */
     public void setPriorities(List<Priority> mPriorities) {
         this.mPriorities = mPriorities;
-
         notifyDataSetChanged();
     }
 
+    /**
+     * This method return the datalist
+     * @return List
+     */
     public List<Priority> getPriorities() {
         return mPriorities;
     }
 
-    protected class PriorityViewHolder extends RecyclerView.ViewHolder {
-        private RowPriorityListBinding binding;
+    /**
+     * This class is used to hold all information of a single RecyclerView item
+     */
+    public class PriorityViewHolder extends RecyclerView.ViewHolder {
+        private final RowPriorityListBinding binding;
 
         public PriorityViewHolder(@NonNull RowPriorityListBinding itemView) {
             super(itemView.getRoot());
@@ -72,9 +112,13 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         }
 
         public void bind(Priority priority) {
-            binding.tvPriorityName.setText(priority.getName());
-            binding.tvPriorityCreatedDate.setText(priority.getCreatedDate());
-            binding.tvPriorityAuthorId.setText(String.valueOf(priority.getAuthorId()));
+            String priorityName = "Name: " + priority.getName();
+            String priorityCreatedDate = "Created Date: " + priority.getCreatedDate();
+            String priorityUserId = "Author Id: " + String.valueOf(priority.getUserId());
+
+            binding.tvPriorityName.setText(priorityName);
+            binding.tvPriorityCreatedDate.setText(priorityCreatedDate);
+            binding.tvPriorityAuthorId.setText(priorityUserId);
         }
     }
 }

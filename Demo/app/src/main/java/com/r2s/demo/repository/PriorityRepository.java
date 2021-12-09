@@ -15,16 +15,21 @@ public class PriorityRepository {
     private AppDatabase mDb;
     private PriorityDao mPriorityDao;
     private LiveData<List<Priority>> mPriorities;
+    private int userId = 1;
 
     public PriorityRepository(Context context) {
         this.mDb = AppDatabase.getInstance(context);
 
         this.mPriorityDao = mDb.getPriorityDao();
 
-        this.mPriorities = mPriorityDao.getAll();
+        this.mPriorities = mPriorityDao.getAllByUserId(userId);
     }
 
     public LiveData<List<Priority>> getAllPriorities() {
+        return mPriorities;
+    }
+
+    public LiveData<List<Priority>> getAllPrioritiesByUserId(int userId) {
         return mPriorities;
     }
 

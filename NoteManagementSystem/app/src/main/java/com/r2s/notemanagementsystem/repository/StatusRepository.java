@@ -16,6 +16,9 @@ public class StatusRepository {
     private StatusDao mStatusDao;
     private LiveData<List<Status>> mStatuses;
 
+    // Replace with SharedPreferences user id
+    private int userId = 1;
+
     public StatusRepository(Context context) {
         this.mDb = AppDatabase.getInstance(context);
 
@@ -25,6 +28,10 @@ public class StatusRepository {
     }
 
     public LiveData<List<Status>> getAllStatuses() {
+        return mStatuses;
+    }
+
+    public LiveData<List<Status>> getAllStatusesByUserId(int userId) {
         return mStatuses;
     }
 
