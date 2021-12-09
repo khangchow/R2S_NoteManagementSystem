@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +21,7 @@ import com.r2s.demo.R;
 import com.r2s.demo.adapter.PriorityAdapter;
 import com.r2s.demo.databinding.FragmentPriorityBinding;
 import com.r2s.demo.local.AppDatabase;
-import com.r2s.demo.local.AppPrefs;
+import com.r2s.demo.local.AppExecutors;
 import com.r2s.demo.model.Priority;
 import com.r2s.demo.view.PriorityDialog;
 import com.r2s.demo.viewmodel.PriorityViewModel;
@@ -113,14 +115,6 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-    }
-
-    public void retrieveTasks() {
-        AppPrefs.getInstance(this.getContext());
-
-        mPriorityViewModel.getAllPriorities().observe(this, persons -> {
-            mPriorityAdapter.setPriorities(persons);
-        });
     }
 
     @Override
