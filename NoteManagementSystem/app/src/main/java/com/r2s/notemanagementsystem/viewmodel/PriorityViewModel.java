@@ -13,28 +13,51 @@ import java.util.List;
 
 public class PriorityViewModel extends AndroidViewModel {
     private PriorityRepository mPriorityRepository;
-
     private LiveData<List<Priority>> mPriorities;
 
+    // Replace with SharedPreferences user id
+    private int userId = 1;
+
+    /**
+     * Constructor with 1 parameter
+     * @param application Application
+     */
     public PriorityViewModel(@NonNull Application application) {
         super(application);
         this.mPriorityRepository = new PriorityRepository(application);
 
-        this.mPriorities = mPriorityRepository.getAllPriorities();
+        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId(userId);
     }
 
-    public LiveData<List<Priority>> getAllPriorities() {
+    /**
+     * This method returns all notes by current logged in user
+     * @param userId int
+     * @return LiveData List
+     */
+    public LiveData<List<Priority>> getAllPrioritiesByUserId(int userId) {
         return mPriorities;
     }
 
+    /**
+     * This method inserts a new priority
+     * @param priority Priority
+     */
     public void insertPriority(Priority priority) {
         mPriorityRepository.insertPriority(priority);
     }
 
+    /**
+     * This method updates a priority by id
+     * @param priority Priority
+     */
     public void updatePriority(Priority priority) {
         mPriorityRepository.updatePriority(priority);
     }
 
+    /**
+     * This method deletes a priority
+     * @param priority Priority
+     */
     public void deletePriority(Priority priority) {
         mPriorityRepository.deletePriority(priority);
     }

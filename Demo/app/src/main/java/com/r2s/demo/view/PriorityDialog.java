@@ -1,7 +1,5 @@
 package com.r2s.demo.view;
 
-import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,47 +13,51 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.r2s.demo.R;
 import com.r2s.demo.adapter.PriorityAdapter;
-import com.r2s.demo.constant.PriorityConstant;
 import com.r2s.demo.databinding.DialogPriorityBinding;
 import com.r2s.demo.model.Priority;
 import com.r2s.demo.viewmodel.PriorityViewModel;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executors;
 
 public class PriorityDialog extends DialogFragment implements View.OnClickListener {
 
+    public static final String TAG = "PriorityDialog";
     private PriorityViewModel mPriorityViewModel;
     private DialogPriorityBinding binding;
     private PriorityAdapter mPriorityAdapter;
     private List<Priority> mPriorities = new ArrayList<>();
     private Bundle bundle = new Bundle();
 
-    public static String TAG = "PriorityDialog";
-
-    public static PriorityDialog newInstance() {
+    private static PriorityDialog newInstance() {
         return new PriorityDialog();
     }
 
+    // Replace with SharedPreferences user id
+    private int userId = 1;
+
+    /**
+     * Method called when a view is being created
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogPriorityBinding.inflate(inflater, container, false);
 
-        bundle = getArguments();
-        if (bundle.getString("priority_name" ) != null) {
-            binding.btnAddPriority.setText("Update");
-            binding.etPriority.setText(bundle.getString("priority_name" ));
-        }
-
         return binding.getRoot();
     }
 
+    /**
+     * Method called after the onCreateView() method
+     * @param view
+     * @param savedInstanceState
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -65,20 +67,33 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
 
         setUpViewModel();
         setOnClicks();
+
+        bundle = getArguments();
+        if (bundle != null) {
+            binding.btnAddPriority.setText("Update");
+            binding.etPriority.setText(bundle.getString("priority_name" ));
+        }
     }
 
+    /**
+     * This method sets on-click listener for views
+     */
     public void setOnClicks() {
         binding.btnAddPriority.setOnClickListener(this);
         binding.btnClosePriority.setOnClickListener(this);
     }
 
+    /**
+     * This method sets on-click actions for views
+     * @param view current view of the activity/fragment
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_priority:
-                if (binding.btnAddPriority.getText() == "Add") {
+                if (binding.btnAddPriority.getText().toString().equalsIgnoreCase("add")) {
                     String currentDate = getCurrentLocalDateTimeStamp();
-                    Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, 1);
+                    Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, userId);
 
                     mPriorityViewModel.insertPriority(priority);
 
@@ -86,11 +101,11 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
                     dismiss();
                 }
 
-                if (binding.btnAddPriority.getText() == "Update") {
+                if (binding.btnAddPriority.getText().toString().equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("priority_id");
 
                     String currentDate = getCurrentLocalDateTimeStamp();
-                    Priority priority = new Priority(updateId, binding.etPriority.getText().toString(), currentDate, 1);
+                    Priority priority = new Priority(updateId, binding.etPriority.getText().toString(), currentDate, userId);
 
                     mPriorityViewModel.updatePriority(priority);
 
@@ -105,7 +120,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     }
 
     private void setUpViewModel() {
-        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
             mPriorityAdapter.setPriorities(priorities);
         });
     }

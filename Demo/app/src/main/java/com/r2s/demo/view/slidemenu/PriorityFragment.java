@@ -1,5 +1,7 @@
 package com.r2s.demo.view.slidemenu;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +26,9 @@ import com.r2s.demo.adapter.PriorityAdapter;
 import com.r2s.demo.databinding.FragmentPriorityBinding;
 import com.r2s.demo.local.AppDatabase;
 import com.r2s.demo.local.AppExecutors;
+import com.r2s.demo.local.AppPrefs;
 import com.r2s.demo.model.Priority;
+import com.r2s.demo.view.LoginActivity;
 import com.r2s.demo.view.PriorityDialog;
 import com.r2s.demo.viewmodel.PriorityViewModel;
 
@@ -42,6 +46,8 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     private PriorityViewModel mPriorityViewModel;
     private PriorityAdapter mPriorityAdapter;
     private List<Priority> mPriorities = new ArrayList<>();
+
+    private int userId = 1;
 
     private AppDatabase mDb;
 
@@ -165,14 +171,14 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void retrievePriorities() {
+    private void retrievePriorities() {
         AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
             @Override
             public void run() {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+                        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
                             mPriorityAdapter.setPriorities(priorities);
                         });
                     }
