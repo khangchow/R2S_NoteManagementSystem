@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import com.google.android.material.navigation.NavigationView;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.databinding.ActivityMainBinding;
-import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
+import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.view.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
 
         setUpNavigationDrawerMenu();
     }
+
 
     /**
      * This method set up navigation drawer mewnu
@@ -63,7 +64,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.slide_menu_nav_home:
+                navController.navigateUp();
+                break;
+            case R.id.slide_menu_nav_category:
+                navController.navigateUp();
 
+                //navController.navigate(R.id.);
+                break;
         }
 
         binding.activityMainToolbar
