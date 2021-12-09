@@ -13,4 +13,15 @@
     <string name="btn_three_dots">…</string>
     <string name="btn_add_new_note">Add</string>
     <string name="btn_close_new_note">Close</string>
+    <string name="register_form_heading_text">Sign up form</string>
+    <string name="btn_exit_text">Exit</string>
+    <string name="btn_login_text">Sign In</string>
+    <string name="btn_register_text">Sign Up</string>
+    <string name="chk_remember_me_text">Remember me</string>
+    <string name="et_email_hint">Enter your email</string>
+    <string name="et_email_invalid">Invalid email!</string>
+    <string name="et_pwd_hint">Enter your password</string>
+    <string name="et_pwd_invalid">Invalid password</string>
+    <string name="et_pwd_confirm_hint">Confirm password</string>
+    <string name="et_pwd_confirm_invalid">Invalid password confirm</string>
 </resources>

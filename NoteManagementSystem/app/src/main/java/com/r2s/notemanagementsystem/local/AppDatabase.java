@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.r2s.notemanagementsystem.model.Note;
 
-@Database(entities = {Note.class}, version = 1)
+@Database(entities = {Note.class, User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
 
@@ -20,10 +20,12 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context) {
         if (mInstance == null) {
             synchronized (context) {
-                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").build();
+                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").fallbackToDestructiveMigration().build();
             }
         }
 
         return mInstance;
     }
+
+    public abstract UserDao userDao();
 }

@@ -14,13 +14,13 @@
         <entry key="..\:/Code/Mobile/R2S/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/layout/activity_main.xml" value="0.275" />
         <entry key="..\:/Code/Mobile/R2S/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/layout/header.xml" value="0.275" />
         <entry key="..\:/Code/Mobile/R2S/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/menu/main_menu.xml" value="0.275" />
+        <entry key="..\:/android/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/drawable/custom_background.xml" value="0.26614583333333336" />
+        <entry key="..\:/android/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/layout/activity_login.xml" value="0.23777173913043478" />
+        <entry key="..\:/android/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/layout/activity_register.xml" value="0.22871376811594202" />
+        <entry key="..\:/android/R2S_NoteManagementSystem/NoteManagementSystem/app/src/main/res/layout/header.xml" value="0.12708333333333333" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
-    <output url="file://$PROJECT_DIR$/build/classes" />
-  </component>
   <component name="ProjectType">
-    <option name="id" value="Android" />
   </component>
 </project>

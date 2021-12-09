@@ -9,4 +9,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="btn_floating_insert">#d90dd9</color>
     <color name="gray">#f1f1f1</color>
+    <color name="grey">#DDD</color>
 </resources>
