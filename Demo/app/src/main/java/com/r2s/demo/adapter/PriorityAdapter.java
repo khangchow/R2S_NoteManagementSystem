@@ -1,12 +1,16 @@
 package com.r2s.demo.adapter;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,16 +18,20 @@ import com.r2s.demo.R;
 import com.r2s.demo.databinding.RowPriorityListBinding;
 import com.r2s.demo.model.Priority;
 import com.r2s.demo.view.PriorityDialog;
+import com.r2s.demo.view.slidemenu.PriorityFragment;
 
 import java.util.List;
 import java.lang.String;
+import java.util.Objects;
 
 public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.PriorityViewHolder> {
 
     private List<Priority> mPriorities;
+    private Context mContext;
 
-    public PriorityAdapter(List<Priority> mPriorities) {
+    public PriorityAdapter(List<Priority> mPriorities, Context context) {
         this.mPriorities = mPriorities;
+        this.mContext = context;
     }
 
     /**
@@ -47,6 +55,23 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     @Override
     public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
         holder.bind(mPriorities.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("priority_id", mPriorities.get(holder.getAdapterPosition()).getId());
+                bundle.putString("priority_name", mPriorities.get(holder.getAdapterPosition()).getName());
+
+                final PriorityDialog priorityDialog = new PriorityDialog();
+                priorityDialog.setArguments(bundle);
+
+                FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                priorityDialog.show(fm, "PriorityDialog");
+            }
+        });
     }
 
     /**
@@ -68,7 +93,7 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     }
 
     public class PriorityViewHolder extends RecyclerView.ViewHolder {
-        private RowPriorityListBinding binding;
+        private final RowPriorityListBinding binding;
 
         public PriorityViewHolder(@NonNull RowPriorityListBinding itemView) {
             super(itemView.getRoot());
@@ -77,9 +102,13 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         }
 
         public void bind(Priority priority) {
-            binding.tvPriorityName.setText(priority.getName());
-            binding.tvPriorityCreatedDate.setText(priority.getCreatedDate());
-            binding.tvPriorityAuthorId.setText(String.valueOf(priority.getAuthorId()));
+            String priorityName = "Name: " + priority.getName();
+            String priorityCreatedDate = "Created Date: " + priority.getCreatedDate();
+            String priorityAuthorId = "Author Id: " + String.valueOf(priority.getAuthorId());
+
+            binding.tvPriorityName.setText(priorityName);
+            binding.tvPriorityCreatedDate.setText(priorityCreatedDate);
+            binding.tvPriorityAuthorId.setText(priorityAuthorId);
         }
     }
 }

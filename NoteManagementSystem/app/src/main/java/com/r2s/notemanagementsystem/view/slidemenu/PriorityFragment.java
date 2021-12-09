@@ -20,6 +20,7 @@ import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.PriorityAdapter;
 import com.r2s.notemanagementsystem.databinding.FragmentPriorityBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
+import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.local.AppPrefs;
 import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
@@ -97,8 +98,6 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
 
         setUpRecyclerView();
 
-        setUpViewModel();
-
         setOnClicks();
 
         mDb = Room.databaseBuilder(requireContext(), AppDatabase.class, "appdb").build();
@@ -115,6 +114,8 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
                 int position = viewHolder.getAdapterPosition();
                 List<Priority> priorities = mPriorityAdapter.getPriorities();
                 mDb.getPriorityDao().deletePriority(priorities.get(position));
+                priorities.remove(position);
+                retrievePriorities();
             }
         });
     }
@@ -122,6 +123,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
+        retrievePriorities();
     }
 
     @Override
@@ -145,17 +147,28 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
         binding.rvPriority.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setUpViewModel() {
-        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
-            mPriorityAdapter.setPriorities(priorities);
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_open_priority:
                 new PriorityDialog().show(getChildFragmentManager(), PriorityDialog.TAG);
         }
+    }
+
+    public void retrievePriorities() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+                            mPriorityAdapter.setPriorities(priorities);
+                        });
+                    }
+                });
+
+            }
+        });
     }
 }

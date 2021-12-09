@@ -1,5 +1,7 @@
 package com.r2s.demo.view;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +34,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     private DialogPriorityBinding binding;
     private PriorityAdapter mPriorityAdapter;
     private List<Priority> mPriorities = new ArrayList<>();
+    private Bundle bundle = new Bundle();
 
     public static String TAG = "PriorityDialog";
 
@@ -43,6 +46,13 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DialogPriorityBinding.inflate(inflater, container, false);
+
+        bundle = getArguments();
+        if (bundle.getString("priority_name" ) != null) {
+            binding.btnAddPriority.setText("Update");
+            binding.etPriority.setText(bundle.getString("priority_name" ));
+        }
+
         return binding.getRoot();
     }
 
@@ -51,7 +61,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
         super.onViewCreated(view, savedInstanceState);
 
         mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
-        mPriorityAdapter = new PriorityAdapter(mPriorities);
+        mPriorityAdapter = new PriorityAdapter(mPriorities, this.getContext());
 
         setUpViewModel();
         setOnClicks();
@@ -66,13 +76,27 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_priority:
-                String currentDate = getCurrentLocalDateTimeStamp();
-                Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, 1);
+                if (binding.btnAddPriority.getText() == "Add") {
+                    String currentDate = getCurrentLocalDateTimeStamp();
+                    Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, 1);
 
-                mPriorityViewModel.insertPriority(priority);
+                    mPriorityViewModel.insertPriority(priority);
 
-                Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
-                dismiss();
+                    Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
+
+                if (binding.btnAddPriority.getText() == "Update") {
+                    int updateId = bundle.getInt("priority_id");
+
+                    String currentDate = getCurrentLocalDateTimeStamp();
+                    Priority priority = new Priority(updateId, binding.etPriority.getText().toString(), currentDate, 1);
+
+                    mPriorityViewModel.updatePriority(priority);
+
+                    Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }
                 break;
             case R.id.btn_close_priority:
                 dismiss();

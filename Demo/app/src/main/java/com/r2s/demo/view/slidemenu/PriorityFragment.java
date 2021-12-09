@@ -121,6 +121,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
                         int position = viewHolder.getAdapterPosition();
                         List<Priority> priorities = mPriorityAdapter.getPriorities();
                         mDb.getPriorityDao().deletePriority(priorities.get(position));
+                        priorities.remove(position);
                         retrievePriorities();
                     }
                 });
@@ -148,7 +149,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
      * Method to initialize the Adapter and attach it to the RecyclerView
      */
     private void setUpRecyclerView() {
-        mPriorityAdapter = new PriorityAdapter(mPriorities);
+        mPriorityAdapter = new PriorityAdapter(mPriorities, this.getContext());
 
         binding.rvPriority.setAdapter(mPriorityAdapter);
 
