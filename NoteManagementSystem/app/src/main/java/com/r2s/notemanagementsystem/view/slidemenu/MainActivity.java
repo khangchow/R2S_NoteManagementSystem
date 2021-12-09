@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.slide_menu_nav_category:
                 navController.navigateUp();
 
-                //navController.navigate(R.id.);
+                navController.navigate(R.id.action_homeFragment_to_categoryFragment);
                 break;
         }
 
