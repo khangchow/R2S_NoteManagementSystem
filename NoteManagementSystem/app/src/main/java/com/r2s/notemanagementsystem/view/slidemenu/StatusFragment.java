@@ -19,6 +19,7 @@ import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.StatusAdapter;
 import com.r2s.notemanagementsystem.databinding.FragmentStatusBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
+import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.model.Status;
 import com.r2s.notemanagementsystem.viewmodel.StatusViewModel;
 
@@ -35,8 +36,10 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     private StatusViewModel mStatusViewModel;
     private StatusAdapter mStatusAdapter;
     private List<Status> mStatuses = new ArrayList<>();
-
     private AppDatabase mDb;
+
+    // Replace with SharedPreferences user id
+    private int userId = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -69,6 +72,10 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         return fragment;
     }
 
+    /**
+     * This method is used for non-graphical initialisations
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +85,13 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    /**
+     * This method is used for graphical initialisations
+     * @param inflater LayoutInflater
+     * @param container ViewGroup
+     * @param savedInstanceState Bundle
+     * @return View
+     */
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,6 +100,11 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         return binding.getRoot();
     }
 
+    /**
+     * This method is called after the onCreateView() method
+     * @param view View
+     * @param savedInstanceState Bundle
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -93,7 +112,6 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
         mStatusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
 
         setUpRecyclerView();
-        setUpViewModel();
         setOnClicks();
 
         mDb = Room.databaseBuilder(requireContext(), AppDatabase.class, "appdb").build();
@@ -106,49 +124,89 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
             /**
              * Implement swipe to delete
-             * @param viewHolder
-             * @param direction
+             * @param viewHolder RecyclerView.ViewHolder
+             * @param direction int
              */
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                List<Status> statuses = mStatusAdapter.getStatuses();
-                mDb.getStatusDao().deleteStatus(statuses.get(position));
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int position = viewHolder.getAdapterPosition();
+                        List<Status> statuses = mStatusAdapter.getStatuses();
+                        mDb.getStatusDao().deleteStatus(statuses.get(position));
+                        statuses.remove(position);
+                        retrieveStatuses();
+                    }
+                });
             }
         });
     }
 
+    /**
+     * This method is called when the user resume the view
+     */
     @Override
     public void onResume() {
         super.onResume();
+        retrieveStatuses();
     }
 
+    /**
+     * This method is called when the view is destroyed
+     */
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
+    /**
+     * This method sets on-click listener for views
+     */
     private void setOnClicks() {
         binding.fabOpenStatus.setOnClickListener(this);
     }
 
     /**
-     * Method to initialize the Adapter and attach it to the RecyclerView
+     * This method initializes the Adapter and attach it to the RecyclerView
      */
     private void setUpRecyclerView() {
-        mStatusAdapter = new StatusAdapter(mStatuses);
+        mStatusAdapter = new StatusAdapter(mStatuses, this.getContext());
 
         binding.rvStatus.setAdapter(mStatusAdapter);
 
         binding.rvStatus.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setUpViewModel() {
-        mStatusViewModel.getAllStatuses().observe(getViewLifecycleOwner(), statuses -> {
-            mStatusAdapter.setStatuses(statuses);
-        });
-    }
-
+    /**
+     * This method sets on-click actions for views
+     * @param view View
+     */
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_open_status:
                 new StatusDialog().show(getChildFragmentManager(), StatusDialog.TAG);
         }
+    }
+
+    /**
+     * This method is used to update the RecyclerView
+     */
+    private void retrieveStatuses() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mStatusViewModel.getAllStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
+                            mStatusAdapter.setStatuses(statuses);
+                        });
+                    }
+                });
+            }
+        });
     }
 }

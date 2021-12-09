@@ -1,14 +1,20 @@
 package com.r2s.notemanagementsystem.adapter;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.databinding.RowStatusListBinding;
 import com.r2s.notemanagementsystem.model.Status;
+import com.r2s.notemanagementsystem.view.slidemenu.StatusDialog;
 
 import java.util.List;
 import java.lang.String;
@@ -16,9 +22,11 @@ import java.lang.String;
 public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusViewHolder> {
 
     private List<Status> mStatuses;
+    private Context mContext;
 
-    public StatusAdapter(List<Status> mStatuses) {
+    public StatusAdapter(List<Status> mStatuses, Context context) {
         this.mStatuses = mStatuses;
+        this.mContext = context;
     }
 
     /**
@@ -42,6 +50,23 @@ public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusVie
     @Override
     public void onBindViewHolder(@NonNull StatusViewHolder holder, int position) {
         holder.bind(mStatuses.get(position));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putInt("status_id", mStatuses.get(holder.getAdapterPosition()).getId());
+                bundle.putString("status_name", mStatuses.get(holder.getAdapterPosition()).getName());
+
+                final StatusDialog statusDialog = new StatusDialog();
+                statusDialog.setArguments(bundle);
+
+                FragmentManager fm = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                FragmentTransaction ft = fm.beginTransaction();
+
+                statusDialog.show(fm, "StatusDialog");
+            }
+        });
     }
 
     /**
@@ -53,9 +78,8 @@ public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusVie
         return mStatuses.size();
     }
 
-    public void setStatuses(List<Status> statusList) {
-        mStatuses = statusList;
-
+    public void setStatuses(List<Status> mStatuses) {
+        this.mStatuses = mStatuses;
         notifyDataSetChanged();
     }
 
@@ -73,9 +97,13 @@ public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusVie
         }
 
         public void bind(Status status) {
-            binding.tvStatusName.setText(status.getName());
-            binding.tvStatusCreatedDate.setText(status.getCreatedDate());
-            binding.tvStatusAuthorId.setText(String.valueOf(status.getAuthorId()));
+            String statusName = "Name: " + status.getName();
+            String statusCreatedDate = "Created Date: " + status.getCreatedDate();
+            String statusUserId = "Author Id: " + String.valueOf(status.getUserId());
+
+            binding.tvStatusName.setText(statusName);
+            binding.tvStatusCreatedDate.setText(statusCreatedDate);
+            binding.tvStatusAuthorId.setText(statusUserId);
         }
     }
 }

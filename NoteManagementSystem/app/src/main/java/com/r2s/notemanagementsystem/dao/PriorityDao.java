@@ -17,6 +17,9 @@ public interface PriorityDao {
     @Query("SELECT * FROM priority_table")
     LiveData<List<Priority>> getAll();
 
+    @Query("SELECT * FROM priority_table WHERE userId IN (:user_id)")
+    LiveData<List<Priority>> getAllByUserId(int user_id);
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insertPriority(Priority priority);
 

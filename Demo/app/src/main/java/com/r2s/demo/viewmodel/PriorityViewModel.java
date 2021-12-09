@@ -16,14 +16,21 @@ public class PriorityViewModel extends AndroidViewModel {
 
     private LiveData<List<Priority>> mPriorities;
 
+    // Replace with SharedPreferences user id
+    private int userId = 1;
+
     public PriorityViewModel(@NonNull Application application) {
         super(application);
         this.mPriorityRepository = new PriorityRepository(application);
 
-        this.mPriorities = mPriorityRepository.getAllPriorities();
+        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId(userId);
     }
 
     public LiveData<List<Priority>> getAllPriorities() {
+        return mPriorities;
+    }
+
+    public LiveData<List<Priority>> getAllPrioritiesByUserId(int userId) {
         return mPriorities;
     }
 
