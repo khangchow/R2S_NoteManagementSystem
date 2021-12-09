@@ -129,7 +129,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
              */
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
@@ -195,7 +195,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
      * This method is used to update the RecyclerView
      */
     private void retrieveStatuses() {
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 requireActivity().runOnUiThread(new Runnable() {

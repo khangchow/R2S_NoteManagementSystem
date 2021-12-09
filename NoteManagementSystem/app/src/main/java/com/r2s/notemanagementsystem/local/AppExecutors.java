@@ -33,15 +33,15 @@ public class AppExecutors {
         return sInstance;
     }
 
-    public Executor getDiskIO() {
+    public Executor diskIO() {
         return diskIO;
     }
 
-    public Executor getMainThread() {
+    public Executor mainThread() {
         return mainThread;
     }
 
-    public Executor getNetworkIO() {
+    public Executor networkIO() {
         return networkIO;
     }
 

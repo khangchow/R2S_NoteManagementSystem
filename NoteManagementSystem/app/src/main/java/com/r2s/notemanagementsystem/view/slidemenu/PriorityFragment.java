@@ -7,7 +7,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +21,6 @@ import com.r2s.notemanagementsystem.adapter.PriorityAdapter;
 import com.r2s.notemanagementsystem.databinding.FragmentPriorityBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.local.AppExecutors;
-import com.r2s.notemanagementsystem.local.AppPrefs;
 import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
@@ -133,7 +131,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
              */
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+                AppExecutors.getInstance().diskIO().execute(new Runnable() {
                     @Override
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
@@ -200,7 +198,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
      * This method is used to update the RecyclerView
      */
     public void retrievePriorities() {
-        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+        AppExecutors.getInstance().diskIO().execute(new Runnable() {
             @Override
             public void run() {
                 requireActivity().runOnUiThread(new Runnable() {
