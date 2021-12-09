@@ -1,45 +1,28 @@
 package com.r2s.notemanagementsystem.model;
 
-import androidx.annotation.Nullable;
-import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity( tableName = "users" )
+@Entity(tableName = "user_table")
 public class User {
-
     @PrimaryKey(autoGenerate = true)
-    private int uid;
-
-    @ColumnInfo(name = "email")
+    private int id;
     private String email;
+    private String pass;
 
-    @ColumnInfo(name = "password")
-    private String password;
-
-    @ColumnInfo(name = "first_name")
-    @Nullable
-    private String firstName;
-
-    @ColumnInfo(name = "last_name")
-    @Nullable
-    private String lastName;
-
-    public User(){
-
-    }
-
-    public User(String email, String password) {
+    public User(int id, String email, String pass) {
         this.email = email;
-        this.password = password;
+        this.pass = pass;
     }
 
-    public int getUid() {
-        return uid;
+    public User(){}
+
+    public int getId() {
+        return id;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getEmail() {
@@ -50,27 +33,11 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPass() {
+        return pass;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setPass(String pass) {
+        this.pass = pass;
     }
 }

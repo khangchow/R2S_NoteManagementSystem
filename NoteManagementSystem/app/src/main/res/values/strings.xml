@@ -9,8 +9,12 @@
     <string name="chk_remember_me_text">Remember me</string>
     <string name="et_email_hint">Enter your email</string>
     <string name="et_email_invalid">Invalid email!</string>
+    <string name="et_email_exists">Email address is already exists!</string>
     <string name="et_pwd_hint">Enter your password</string>
     <string name="et_pwd_invalid">Invalid password</string>
     <string name="et_pwd_confirm_hint">Confirm password</string>
     <string name="et_pwd_confirm_invalid">Invalid password confirm</string>
+    <string name="login_failed">Email or password is incorrect</string>
+    <string name="logged_in">Logged in</string>
+    <string name="user_created">User created successfully!</string>
 </resources>

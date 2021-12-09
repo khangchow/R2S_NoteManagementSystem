@@ -1,6 +1,8 @@
 package com.r2s.notemanagementsystem.view;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,50 +10,38 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
-import com.r2s.notemanagementsystem.constants.AppExecutors;
-import com.r2s.notemanagementsystem.constants.Constants;
+import com.r2s.notemanagementsystem.constant.UserConstant;
 import com.r2s.notemanagementsystem.databinding.ActivityLoginBinding;
-import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
+import com.r2s.notemanagementsystem.view.slidemenu.MainActivity;
+import com.r2s.notemanagementsystem.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
-    private AppDatabase mDb;
+    private UserViewModel userViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_login);
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.activityLoginBtnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User();
-                user.setEmail(binding.activityLoginEtEmail.getText().toString().trim());
-                user.setPassword(binding.activityLoginEtPassword.getText().toString().trim());
+        AppPrefsUtils.createAppPrefs(this);
 
-                mDb = AppDatabase.getInstance(getBaseContext());
-                AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        User mUser = mDb.userDao().login(user.getEmail(), user.getPassword());
+        if(isRememberUser(AppPrefsUtils.getString(UserConstant.KEY_REMEMBER_USER)))
+            showMainActivity();
 
-                        if (mUser == null) {
-                            final Toast toast = Toast.makeText(getBaseContext(), "null", Toast.LENGTH_SHORT);
-                            toast.show();
-                        }
-                    }
-                });
-            }
-        });
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        initEvents();
     }
 
     /**
-     * This method show register activity
+     * This method created to show register activity
      * @param v View class
      * @return void
      */
@@ -59,5 +49,58 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this, RegisterActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * This method created to show main activity
+     */
+    public void showMainActivity(){
+        Intent intent = new Intent(LoginActivity.this, DemoLoggedActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    public Boolean isRememberUser(String isRememberTxt){
+        if(TextUtils.equals("\"true\"", isRememberTxt))
+            return true;
+        else
+            return false;
+    }
+
+    /**
+     * This method created to register events
+     */
+    public void initEvents(){
+        binding.activityLoginBtnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = new User();
+                user.setEmail(binding.activityLoginEtEmail.getText().toString().trim());
+                user.setPass(binding.activityLoginEtPassword.getText().toString().trim());
+
+                userViewModel.login(user.getEmail(), user.getPass()).observe(LoginActivity.this, new Observer<User>() {
+                    @Override
+                    public void onChanged(User mUser) {
+                        if(mUser==null)
+                            Toast.makeText(getBaseContext(), getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+                        else{
+                            AppPrefsUtils.putString(UserConstant.KEY_USER_DATA
+                                    , new Gson().toJson(mUser));
+
+                            if(binding.activityLoginChkRemember.isChecked())
+                                AppPrefsUtils.putString(UserConstant.KEY_REMEMBER_USER
+                                        , new Gson().toJson("true"));
+                            else
+                                AppPrefsUtils.putString(UserConstant.KEY_REMEMBER_USER
+                                        , new Gson().toJson("false"));
+
+
+                            Toast.makeText(getBaseContext(), getResources().getString(R.string.logged_in), Toast.LENGTH_SHORT).show();
+                            showMainActivity();
+                        }
+                    }
+                });
+            }
+        });
     }
 }

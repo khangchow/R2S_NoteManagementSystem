@@ -9,10 +9,11 @@ import androidx.room.RoomDatabase;
 import com.r2s.notemanagementsystem.dao.UserDao;
 import com.r2s.notemanagementsystem.model.User;
 
-@Database(entities = {User.class}, version = 2)
+@Database(entities = {User.class}, version = 3)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
 
+    public abstract UserDao getUserDao();
     /**
      * This is a singleton method to get instance of database
      * @param context
@@ -21,12 +22,11 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context) {
         if (mInstance == null) {
             synchronized (context) {
-                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").fallbackToDestructiveMigration().build();
+                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").build();
             }
         }
 
         return mInstance;
     }
-
-    public abstract UserDao userDao();
 }
+

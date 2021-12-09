@@ -1,26 +1,26 @@
 package com.r2s.notemanagementsystem.view;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.r2s.notemanagementsystem.R;
-import com.r2s.notemanagementsystem.constants.AppExecutors;
-import com.r2s.notemanagementsystem.constants.Constants;
-import com.r2s.notemanagementsystem.dao.UserDao;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.ActivityRegisterBinding;
-import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.viewmodel.UserViewModel;
 
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
-    private AppDatabase mDb;
+    private UserViewModel userViewModel;
+    private Boolean isExist = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,24 +29,9 @@ public class RegisterActivity extends AppCompatActivity {
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.activityRegisterBtnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                User user = new User();
-                user.setEmail(binding.activityRegisterEtEmail.getText().toString().trim());
-                user.setPassword(binding.activityRegisterEtPassword.getText().toString().trim());
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-                if(validateInput(user)){
-                    mDb = AppDatabase.getInstance(getBaseContext());
-                    AppExecutors.getInstance().diskIO().execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            mDb.userDao().register(user);
-                        }
-                    });
-                }
-            }
-        });
+        initEvents();
     }
 
     /**
@@ -72,15 +57,50 @@ public class RegisterActivity extends AppCompatActivity {
             binding.activityRegisterEtEmail.setError(getResources().getString(R.string.et_email_invalid));
             return false;
         }
-        if(TextUtils.isEmpty(user.getPassword())){
+        if(TextUtils.isEmpty(user.getPass())){
             binding.activityRegisterEtPassword.setError(getResources().getString(R.string.et_pwd_invalid));
             return false;
         }
-        if(TextUtils.isEmpty(passwordConfirm)||!TextUtils.equals(user.getPassword(),passwordConfirm)){
+        if(TextUtils.isEmpty(passwordConfirm)||!TextUtils.equals(user.getPass(),passwordConfirm)){
             binding.activityRegisterEtPasswordConfirm.setError(getResources().getString(R.string.et_pwd_confirm_invalid));
             return false;
         }
 
         return true;
+    }
+
+    /**
+     * This method created to register events
+     */
+    public void initEvents(){
+        binding.activityRegisterBtnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                User user = new User();
+                user.setEmail(binding.activityRegisterEtEmail.getText().toString().trim());
+                user.setPass(binding.activityRegisterEtPassword.getText().toString().trim());
+
+                if(validateInput(user)){
+                    userViewModel.count(user.getEmail()).observe(RegisterActivity.this, new Observer<Integer>() {
+                        @Override
+                        public void onChanged(@Nullable Integer integer) {
+                            if(integer<1){
+                                userViewModel.insertUser(user);
+
+                                isExist = false;
+
+                                Toast.makeText(RegisterActivity.this, getResources().getString(R.string.user_created), Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            if(isExist==true)
+                                binding.activityRegisterEtEmail.setError(getResources().getString(R.string.et_email_exists));
+                        }
+                    });
+                }
+            }
+        });
     }
 }
