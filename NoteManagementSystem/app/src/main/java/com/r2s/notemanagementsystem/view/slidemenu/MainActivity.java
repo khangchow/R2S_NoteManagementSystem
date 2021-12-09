@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     /**
-     * This method set up navigation drawer mewnu
+     * This method set up navigation drawer menu
      */
     private void setUpNavigationDrawerMenu() {
         binding.activityMainNavView.bringToFront();
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         //set default selected item
         binding.activityMainNavView.setCheckedItem(R.id.slide_menu_nav_home);
+
 
         getSupportActionBar().setTitle(navController.getCurrentDestination().getLabel());
 
@@ -92,4 +95,6 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
+
+
 }

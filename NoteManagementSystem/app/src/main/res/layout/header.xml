@@ -4,15 +4,15 @@
     android:layout_height="200dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@drawable/custom_background"
+
     android:gravity="bottom"
     android:padding="20dp">
 
     <ImageView
+        android:id="@+id/nav_header_imv_avatar"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/nav_header_imv_avatar"/>
+        android:src="@mipmap/ic_launcher" />
 
     <TextView
         android:layout_width="wrap_content"

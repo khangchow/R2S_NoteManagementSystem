@@ -2,4 +2,15 @@
     <string name="app_name">Note Management System</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Note fragment-->
+    <string name="description_fab">add</string>
+    <string name="edt_hint_enter_note_name">Enter note name</string>
+    <string name="hint_auto_complete_category">Select category</string>
+    <string name="hint_auto_complete_priority">Select Priority</string>
+    <string name="hint_auto_complete_status">Select Status</string>
+    <string name="txt_select_plan_date">Select plan date</string>
+    <string name="btn_three_dots">…</string>
+    <string name="btn_add_new_note">Add</string>
+    <string name="btn_close_new_note">Close</string>
 </resources>
