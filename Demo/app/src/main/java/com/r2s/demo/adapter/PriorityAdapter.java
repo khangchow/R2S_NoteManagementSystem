@@ -1,14 +1,19 @@
 package com.r2s.demo.adapter;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.r2s.demo.R;
 import com.r2s.demo.databinding.RowPriorityListBinding;
 import com.r2s.demo.model.Priority;
+import com.r2s.demo.view.PriorityDialog;
 
 import java.util.List;
 import java.lang.String;
@@ -17,17 +22,12 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
 
     private List<Priority> mPriorities;
 
-    /**
-     * Initialize the dataset of the Adapter.
-     * @param mPriorities List<Priority> containing the data to populate views to be used
-     * by RecyclerView.
-     */
     public PriorityAdapter(List<Priority> mPriorities) {
         this.mPriorities = mPriorities;
     }
 
     /**
-     * Create new views (invoked by the layout manager)
+     * Create new views
      * @param parent
      * @param viewType
      * @return new view
@@ -47,8 +47,6 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
     @Override
     public void onBindViewHolder(@NonNull PriorityViewHolder holder, int position) {
         holder.bind(mPriorities.get(position));
-
-        
     }
 
     /**
@@ -60,13 +58,8 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         return mPriorities.size();
     }
 
-    /**
-     * Update and notify the data changes
-     * @param mPriorities
-     */
     public void setPriorities(List<Priority> mPriorities) {
         this.mPriorities = mPriorities;
-
         notifyDataSetChanged();
     }
 
@@ -74,11 +67,7 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         return mPriorities;
     }
 
-    /**
-     * Provide a constructor that accepts the entire item row
-     * and does the view lookups to find each subview
-     */
-    protected class PriorityViewHolder extends RecyclerView.ViewHolder {
+    public class PriorityViewHolder extends RecyclerView.ViewHolder {
         private RowPriorityListBinding binding;
 
         public PriorityViewHolder(@NonNull RowPriorityListBinding itemView) {

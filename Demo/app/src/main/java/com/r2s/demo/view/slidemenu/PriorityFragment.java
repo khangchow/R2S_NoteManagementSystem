@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -16,6 +17,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.r2s.demo.R;
 import com.r2s.demo.adapter.PriorityAdapter;
@@ -28,6 +30,7 @@ import com.r2s.demo.viewmodel.PriorityViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -48,8 +51,8 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mPriorityName;
-    private String mPriorityCreatedDate;
+    private String mParam1;
+    private String mParam2;
 
     public PriorityFragment() {
         // Required empty public constructor
@@ -74,6 +77,15 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -90,8 +102,6 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
 
         setUpRecyclerView();
 
-        setUpViewModel();
-
         setOnClicks();
 
         mDb = Room.databaseBuilder(requireContext(), AppDatabase.class, "appdb").build();
@@ -105,16 +115,23 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 // Implement swipe to delete
-                int position = viewHolder.getAdapterPosition();
-                List<Priority> tasks = mPriorityAdapter.getPriorities();
-                mDb.getPriorityDao().deletePriority(tasks.get(position));
+                AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        int position = viewHolder.getAdapterPosition();
+                        List<Priority> priorities = mPriorityAdapter.getPriorities();
+                        mDb.getPriorityDao().deletePriority(priorities.get(position));
+                        retrievePriorities();
+                    }
+                });
             }
-        });
+        }).attachToRecyclerView(binding.rvPriority);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        retrievePriorities();
     }
 
     @Override
@@ -138,17 +155,29 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
         binding.rvPriority.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
-    private void setUpViewModel() {
-        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
-            mPriorityAdapter.setPriorities(priorities);
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.fab_open_priority:
-                new PriorityDialog().show(getChildFragmentManager(), PriorityDialog.TAG);
+                DialogFragment priorityDialog = new PriorityDialog();
+                priorityDialog.show(getChildFragmentManager(), PriorityDialog.TAG);
         }
+    }
+
+    public void retrievePriorities() {
+        AppExecutors.getInstance().getDiskIO().execute(new Runnable() {
+            @Override
+            public void run() {
+                requireActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mPriorityViewModel.getAllPriorities().observe(getViewLifecycleOwner(), priorities -> {
+                            mPriorityAdapter.setPriorities(priorities);
+                        });
+                    }
+                });
+
+            }
+        });
     }
 }

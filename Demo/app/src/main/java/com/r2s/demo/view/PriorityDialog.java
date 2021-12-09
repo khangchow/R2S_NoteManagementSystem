@@ -58,14 +58,14 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     }
 
     public void setOnClicks() {
-        binding.btnAdd.setOnClickListener(this);
-        binding.btnClose.setOnClickListener(this);
+        binding.btnAddPriority.setOnClickListener(this);
+        binding.btnClosePriority.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_add:
+            case R.id.btn_add_priority:
                 String currentDate = getCurrentLocalDateTimeStamp();
                 Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, 1);
 
@@ -74,7 +74,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
                 Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
                 dismiss();
                 break;
-            case R.id.btn_close:
+            case R.id.btn_close_priority:
                 dismiss();
                 break;
         }
