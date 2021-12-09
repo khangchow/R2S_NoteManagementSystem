@@ -3,7 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/note_fragment">
+    app:startDestination="@id/priorityFragment">
+    <fragment
+        android:id="@+id/priorityFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.PriorityFragment"
+        android:label="fragment_priority"
+        tools:layout="@layout/fragment_priority" >
+        <action
+            android:id="@+id/action_priorityFragment_to_priorityDialog"
+            app:destination="@id/priorityDialog" />
+        <argument
+            android:name="arg_priority_input"
+            app:argType="string"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/priorityDialog"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.PriorityDialog"
+        android:label="PriorityDialog" >
+        <action
+            android:id="@+id/action_priorityDialog_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+    </fragment>
+
     <fragment
         android:id="@+id/note_fragment"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.FragmentNote"
@@ -11,5 +33,4 @@
         tools:layout="@layout/fragment_note">
 
     </fragment>
-
 </navigation>

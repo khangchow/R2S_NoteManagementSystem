@@ -10,4 +10,7 @@
     <color name="btn_floating_insert">#d90dd9</color>
     <color name="gray">#f1f1f1</color>
     <color name="grey">#DDD</color>
+    <color name="main_bg">#009688</color>
+    <color name="tool_bar_bg">#077E73</color>
+    <color name="status_bar_bg">#09635B</color>
 </resources>
