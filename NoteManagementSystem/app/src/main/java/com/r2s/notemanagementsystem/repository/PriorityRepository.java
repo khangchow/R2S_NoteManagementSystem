@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.r2s.notemanagementsystem.dao.PriorityDao;
+import com.r2s.notemanagementsystem.Dao.PriorityDao;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.Priority;
 

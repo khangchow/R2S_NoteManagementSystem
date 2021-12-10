@@ -22,8 +22,9 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     private CategoryViewModel mCateViewModel;
     private DialogEditCategoryBinding binding;
     private CategoryAdapter mCateAdapter;
-    private ArrayList<Category> categoryArrayList = new ArrayList<>();
-    private int cateId = 1;
+    private final ArrayList<Category> categoryArrayList = new ArrayList<>();
+    private Bundle bundle = new Bundle();
+
     private int userId = 1;
 
     @Nullable
@@ -43,6 +44,12 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
         mCateViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         mCateAdapter = new CategoryAdapter(categoryArrayList, this.getContext());
 
+        bundle = getArguments();
+        if (bundle != null) {
+            binding.btnUpdate.setText("Update");
+            binding.etEditCate.setText(bundle.getString("priority_name" ));
+        }
+
         mCateViewModel.loadAllCate(userId).observe(getViewLifecycleOwner(), categories -> {
             mCateAdapter.setTasks(categories);
         });
@@ -54,15 +61,23 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
 
     }
 
+    /**
+     * Handling the button
+     * @param v
+     */
     @Override
     public void onClick(View v) {
+        int cateId = 1;
         switch (v.getId()){
             case R.id.btnUpdate:
-                Category category = new Category(cateId, binding.etEditCate.getText().toString());
+                if (binding.btnUpdate.getText().toString().equalsIgnoreCase("update")) {
+                    int updateId = bundle.getInt("cate_id");
+                    Category category = new Category(updateId, binding.etEditCate.getText().toString());
 
-                mCateViewModel.updateCate(category);
-                dismiss();
-
+                    mCateViewModel.updateCate(category);
+                    dismiss();
+                }
+                break;
             case R.id.btnCancel:
                 dismiss();
                 break;

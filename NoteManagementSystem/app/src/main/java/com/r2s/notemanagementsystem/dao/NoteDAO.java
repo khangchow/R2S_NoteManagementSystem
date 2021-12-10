@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.dao;
+package com.r2s.notemanagementsystem.Dao;
 
 import androidx.room.Dao;
 import androidx.room.Insert;

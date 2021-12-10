@@ -12,6 +12,12 @@
         <action
             android:id="@+id/action_homeFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -21,6 +27,12 @@
         <action
             android:id="@+id/action_categoryFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
     </fragment>
 
     <fragment
@@ -28,20 +40,34 @@
         android:name="com.r2s.notemanagementsystem.view.slidemenu.PriorityFragment"
         android:label="fragment_priority"
         tools:layout="@layout/fragment_priority" >
-        <action
-            android:id="@+id/action_priorityFragment_to_priorityDialog"
-            app:destination="@id/priorityDialog" />
         <argument
             android:name="arg_priority_input"
             app:argType="string"
             android:defaultValue="0" />
-    </fragment>
-    
-    <fragment
-        android:id="@+id/priorityDialog"
-        android:name="com.r2s.notemanagementsystem.view.slidemenu.PriorityDialog"
-        android:label="PriorityDialog" >
         <action
-            android:id="@+id/action_priorityDialog_to_priorityFragment"
+            android:id="@+id/action_priorityFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_priorityFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_priorityFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statusFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.StatusFragment"
+        android:label="fragment_status"
+        tools:layout="@layout/fragment_status" >
+        <action
+            android:id="@+id/action_statusFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_priorityFragment"
             app:destination="@id/priorityFragment" />
+    </fragment>
+
 </navigation>

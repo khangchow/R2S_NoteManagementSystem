@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.constant.CategoryConstant;
+import com.r2s.notemanagementsystem.model.Status;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,15 +49,19 @@ public class HomeFragment extends Fragment {
 
     private void initView() {
         pieEntryList.clear();
-        pieChart.setUsePercentValues(false);
-        pieEntryList.add(new PieEntry(6,"Process"));
-        pieEntryList.add(new PieEntry(4,"Pending"));
-        pieEntryList.add(new PieEntry(4,"Done"));
+        pieChart.setUsePercentValues(true);
+
+        pieEntryList.add(new PieEntry(6, "Done"));
+        pieEntryList.add(new PieEntry(4, "Process"));
+        pieEntryList.add(new PieEntry(4, "Pending"));
+
         PieDataSet pieDataSet = new PieDataSet(pieEntryList,"Status");
         pieChart.setData(new PieData(pieDataSet));
+
+        pieDataSet.setValueTextSize(16f);
         pieDataSet.setColors(CategoryConstant.COLOR_RGB);
         pieChart.setDrawHoleEnabled(false);
-        pieChart.getDescription().setEnabled(true);
+        pieChart.getDescription().setEnabled(false);
         pieChart.setRotationEnabled(false);
         pieChart.invalidate();
     }

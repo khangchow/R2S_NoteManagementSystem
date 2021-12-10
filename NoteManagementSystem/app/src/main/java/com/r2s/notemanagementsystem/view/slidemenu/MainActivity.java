@@ -75,6 +75,16 @@ public class MainActivity extends AppCompatActivity
 
                 navController.navigate(R.id.action_homeFragment_to_categoryFragment);
                 break;
+            case R.id.slide_menu_nav_priority:
+                navController.navigateUp();
+
+                navController.navigate(R.id.action_homeFragment_to_priorityFragment);
+                break;
+            case R.id.slide_menu_nav_status:
+                navController.navigateUp();
+
+                navController.navigate(R.id.action_homeFragment_to_statusFragment);
+                break;
         }
 
         binding.activityMainToolbar

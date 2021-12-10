@@ -17,16 +17,32 @@ public class Category {
 
     private String nameCate;
     private String createdDate;
+    private int uId;
 
     /**
      * Constructor
      * @param nameCate
      */
-    public Category(int cateId,String nameCate) {
+    public Category(int cateId, String nameCate) {
         this.cateId = cateId;
         this.nameCate = nameCate;
     }
 
+    /**
+     * get user id
+     * @return
+     */
+    public int getUId() {
+        return uId;
+    }
+
+    /**
+     * set user id
+     * @param uId
+     */
+    public void setUId(int uId) {
+        this.uId = uId;
+    }
 
     /**
      * get id Category
