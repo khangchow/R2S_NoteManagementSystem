@@ -36,10 +36,9 @@ public class PriorityRepository {
 
     /**
      * This method returns all priorities by current logged in user
-     * @param userId int
      * @return LiveData List
      */
-    public LiveData<List<Priority>> getAllPrioritiesByUserId(int userId) {
+    public LiveData<List<Priority>> getAllPrioritiesByUserId() {
         return mPriorities;
     }
 

@@ -38,10 +38,9 @@ public class StatusRepository {
 
     /**
      * This method returns all statuses by current logged in user
-     * @param userId int
      * @return LiveData List
      */
-    public LiveData<List<Status>> getAllStatusesByUserId(int userId) {
+    public LiveData<List<Status>> getAllStatusesByUserId() {
         return mStatuses;
     }
 

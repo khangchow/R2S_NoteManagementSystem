@@ -20,7 +20,6 @@ public class StatusViewModel extends AndroidViewModel {
 
     private StatusRepository mStatusRepository;
     private LiveData<List<Status>> mStatuses;
-    private User mUser;
 
     /**
      * Constructor with 1 parameter
@@ -30,17 +29,14 @@ public class StatusViewModel extends AndroidViewModel {
         super(application);
         this.mStatusRepository = new StatusRepository(application);
 
-        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
-
-        this.mStatuses = mStatusRepository.getAllStatusesByUserId(mUser.getUid());
+        this.mStatuses = mStatusRepository.getAllStatusesByUserId();
     }
 
     /**
      * This method returns all notes by current logged in user
-     * @param userId int
      * @return LiveData List
      */
-    public LiveData<List<Status>> getStatusesByUserId(int userId) {
+    public LiveData<List<Status>> getStatusesByUserId() {
         return mStatuses;
     }
 

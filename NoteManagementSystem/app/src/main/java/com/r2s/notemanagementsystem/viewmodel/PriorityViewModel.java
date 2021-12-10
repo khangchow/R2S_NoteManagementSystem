@@ -19,7 +19,6 @@ public class PriorityViewModel extends AndroidViewModel {
 
     private PriorityRepository mPriorityRepository;
     private LiveData<List<Priority>> mPriorities;
-    private User mUser;
 
     /**
      * Constructor with 1 parameter
@@ -29,17 +28,14 @@ public class PriorityViewModel extends AndroidViewModel {
         super(application);
         this.mPriorityRepository = new PriorityRepository(application);
 
-        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
-
-        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId(mUser.getUid());
+        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId();
     }
 
     /**
      * This method returns all notes by current logged in user
-     * @param userId int
      * @return LiveData List
      */
-    public LiveData<List<Priority>> getPrioritiesByUserId(int userId) {
+    public LiveData<List<Priority>> getPrioritiesByUserId() {
         return mPriorities;
     }
 

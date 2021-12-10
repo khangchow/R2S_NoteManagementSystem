@@ -208,7 +208,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPriorityViewModel.getPrioritiesByUserId(mUser.getUid())
+                        mPriorityViewModel.getPrioritiesByUserId()
                                 .observe(getViewLifecycleOwner(), priorities -> {
                             mPriorityAdapter.setPriorities(priorities);
                         });

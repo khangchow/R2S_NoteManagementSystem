@@ -208,7 +208,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mStatusViewModel.getStatusesByUserId(mUser.getUid())
+                        mStatusViewModel.getStatusesByUserId()
                                 .observe(getViewLifecycleOwner(), statuses -> {
                             mStatusAdapter.setStatuses(statuses);
                         });
