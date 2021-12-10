@@ -85,6 +85,11 @@ public class MainActivity extends AppCompatActivity
 
                 navController.navigate(R.id.action_homeFragment_to_statusFragment);
                 break;
+            case R.id.slide_menu_nav_note:
+                navController.navigateUp();
+
+                navController.navigate(R.id.action_homeFragment_to_noteFragment);
+                break;
         }
 
         binding.activityMainToolbar

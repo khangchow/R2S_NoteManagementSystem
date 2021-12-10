@@ -4,7 +4,7 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
-import com.r2s.notemanagementsystem.Dao.StatusDao;
+import com.r2s.notemanagementsystem.dao.StatusDao;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.Status;
 

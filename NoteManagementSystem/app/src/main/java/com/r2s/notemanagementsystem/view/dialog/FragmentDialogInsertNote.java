@@ -4,6 +4,7 @@ import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +21,9 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -29,9 +32,13 @@ import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.NoteAdapter;
 import com.r2s.notemanagementsystem.constant.NoteConstant;
 import com.r2s.notemanagementsystem.databinding.DialogFragmentInsertNoteBinding;
+import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.model.Note;
 import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
+import com.r2s.notemanagementsystem.viewmodel.CategoryViewModel;
 import com.r2s.notemanagementsystem.viewmodel.NoteViewModel;
+import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
+import com.r2s.notemanagementsystem.viewmodel.StatusViewModel;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -50,9 +57,12 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
     // Replace with SharedPreferences user id
     private int userId = 1;
 
-    private static final String[] itemsCategory = {"Relax", "Working",};
-    private static final String[] itemsPriority = {"Slow", "High",};
-    private static final String[] itemsStatus = {"Done", "Processing",};
+    List<String> listStringCate = new ArrayList<>();
+    List<String> listStringPri = new ArrayList<>();
+    List<String> listStringSta = new ArrayList<>();
+    private CategoryViewModel mCateViewModel;
+    private PriorityViewModel mPriorityViewModel;
+    private StatusViewModel mStatusViewModel;
 
     private ArrayAdapter<String> adapterItemCategory, adapterItemPriority, adapterItemStatus;
 
@@ -88,6 +98,11 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         super.onViewCreated(view, savedInstanceState);
 
         mNoteViewModel = new ViewModelProvider(this).get(NoteViewModel.class);
+
+        mCateViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
+        mPriorityViewModel = new ViewModelProvider(this).get(PriorityViewModel.class);
+        mStatusViewModel = new ViewModelProvider(this).get(StatusViewModel.class);
+
         mNoteAdapter = new NoteAdapter(mNotes, this.getContext());
 
         initView(view);
@@ -125,6 +140,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
      *
      * @param view current view of the activity/fragment
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -162,18 +178,37 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         }
     }
 
+    /**
+     * this method set items for auto complete
+     * @param view
+     */
     public void initView(View view) {
 
-        // auto complete for category
-        adapterItemCategory = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, itemsCategory);
+        //auto complete category
+        mCateViewModel.loadAllCate(userId).observe(getViewLifecycleOwner(), categories -> {
+            for(int i = 0; i < categories.size();i++){
+                listStringCate.add(categories.get(i).getNameCate());
+            }
+        });
+        adapterItemCategory = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, listStringCate);
         binding.autoCompleteCategory.setAdapter(adapterItemCategory);
 
         // auto complete for priority
-        adapterItemPriority = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, itemsPriority);
+        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
+            for(int i = 0; i < priorities.size();i++){
+                listStringPri.add(priorities.get(i).getName());
+            }
+        });
+        adapterItemPriority = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, listStringPri);
         binding.autoCompletePriority.setAdapter(adapterItemPriority);
 
         // auto complete for status
-        adapterItemStatus = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, itemsStatus);
+        mStatusViewModel.getAllStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
+            for(int i = 0; i < statuses.size();i++){
+                listStringSta.add(statuses.get(i).getName());
+            }
+        });
+        adapterItemStatus = new ArrayAdapter<String>(view.getContext(), R.layout.dropdown_item, listStringSta);
         binding.autoCompleteStatus.setAdapter(adapterItemStatus);
 
         // Show date when choose date inside date picker
@@ -240,6 +275,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
      *
      * @return String
      */
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String getCurrentLocalDateTimeStamp() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }

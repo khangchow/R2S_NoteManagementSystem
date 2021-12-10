@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_statusFragment"
             app:destination="@id/statusFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryFragment"
@@ -33,6 +36,9 @@
         <action
             android:id="@+id/action_categoryFragment_to_statusFragment"
             app:destination="@id/statusFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_noteFragment"
+            app:destination="@id/noteFragment" />
     </fragment>
 
     <fragment
@@ -59,6 +65,22 @@
         android:name="com.r2s.notemanagementsystem.view.slidemenu.StatusFragment"
         android:label="fragment_status"
         tools:layout="@layout/fragment_status" >
+        <action
+            android:id="@+id/action_statusFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/noteFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.FragmentNote"
+        android:label="fragment_note"
+        tools:layout="@layout/fragment_note" >
         <action
             android:id="@+id/action_statusFragment_to_categoryFragment"
             app:destination="@id/categoryFragment" />

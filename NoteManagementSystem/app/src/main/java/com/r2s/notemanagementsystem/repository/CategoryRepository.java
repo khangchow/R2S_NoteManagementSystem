@@ -4,7 +4,7 @@ import android.app.Application;
 
 import androidx.lifecycle.LiveData;
 
-import com.r2s.notemanagementsystem.Dao.CategoryDao;
+import com.r2s.notemanagementsystem.dao.CategoryDao;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.Category;
 
