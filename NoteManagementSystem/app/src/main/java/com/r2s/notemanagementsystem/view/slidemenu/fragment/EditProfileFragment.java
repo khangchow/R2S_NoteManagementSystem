@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,6 +29,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
     private FragmentEditProfileBinding binding;
     private UserViewModel mUserViewModel;
     private User mUser;
+    private NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,12 +57,22 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
             case R.id.btn_change:
                 editProfile();
                 break;
+
             case R.id.btn_home:
-                Intent intent = new Intent(getActivity().getApplicationContext(),HomeFragment.class);
-                startActivity(intent);
+                navController.navigate(
+                        R.id.action_slide_menu_nav_edit_profile_to_slide_menu_nav_home);
                 break;
         }
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        navController = Navigation.findNavController(getActivity()
+                , R.id.nav_host_fragment_content_home);
+    }
+
     private void editProfile(){
         String strFirstName = binding.etFirstName.getText().toString();
 
@@ -78,6 +91,11 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
         //Doi profile cua thong tin dang nhap
         AppPrefsUtils.putString(Constants.KEY_USER_DATA, new Gson().toJson(mUser));
+
+        //Reset các fields
+        binding.etFirstName.setText(null);
+
+        binding.etLastName.setText(null);
 
         Toast.makeText(getContext(),"Update user successfully",Toast.LENGTH_SHORT).show();
     }
