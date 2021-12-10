@@ -89,7 +89,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
      * This method sets up the ViewModel
      */
     private void setUpViewModel() {
-        mPriorityViewModel.getPrioritiesByUserId(mUser.getUid())
+        mPriorityViewModel.getPrioritiesByUserId()
                 .observe(getViewLifecycleOwner(), priorities -> {
             mPriorityAdapter.setPriorities(priorities);
         });
