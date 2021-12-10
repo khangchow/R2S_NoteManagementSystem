@@ -181,7 +181,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         binding.autoCompleteCategory.setAdapter(adapterItemCategory);
 
         // auto complete for priority
-        mPriorityViewModel.getPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
+        mPriorityViewModel.getPrioritiesByUserId().observe(getViewLifecycleOwner(), priorities -> {
             for(int i = 0; i < priorities.size();i++){
                 listStringPri.add(priorities.get(i).getName());
             }
@@ -190,7 +190,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         binding.autoCompletePriority.setAdapter(adapterItemPriority);
 
         // auto complete for status
-        mStatusViewModel.getStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
+        mStatusViewModel.getStatusesByUserId().observe(getViewLifecycleOwner(), statuses -> {
             for(int i = 0; i < statuses.size();i++){
                 listStringSta.add(statuses.get(i).getName());
             }
