@@ -27,8 +27,6 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
     private final ArrayList<Category> categoryArrayList = new ArrayList<>();
     private Bundle bundle = new Bundle();
 
-    private int userId = 1;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -52,7 +50,7 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
             binding.etEditCate.setText(bundle.getString("priority_name" ));
         }
 
-        mCateViewModel.loadAllCate(userId).observe(getViewLifecycleOwner(), categories -> {
+        mCateViewModel.loadAllCate().observe(getViewLifecycleOwner(), categories -> {
             mCateAdapter.setTasks(categories);
         });
 

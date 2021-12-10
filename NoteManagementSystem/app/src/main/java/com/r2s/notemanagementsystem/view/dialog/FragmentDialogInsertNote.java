@@ -184,7 +184,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
     public void initView(View view) {
 
         //auto complete category
-        mCateViewModel.loadAllCate(userId).observe(getViewLifecycleOwner(), categories -> {
+        mCateViewModel.loadAllCate().observe(getViewLifecycleOwner(), categories -> {
             for (int i = 0; i < categories.size(); i++) {
                 listStringCate.add(categories.get(i).getNameCate());
             }

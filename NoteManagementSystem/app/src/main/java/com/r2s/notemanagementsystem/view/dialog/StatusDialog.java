@@ -89,7 +89,7 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
      * This method sets up the ViewModel
      */
     public void setUpViewModel() {
-        mStatusViewModel.getStatusesByUserId()
+        mStatusViewModel.getAllStatusesByUserId()
                 .observe(getViewLifecycleOwner(), statuses -> {
             mStatusAdapter.setStatuses(statuses);
         });
