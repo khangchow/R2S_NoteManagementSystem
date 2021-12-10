@@ -105,5 +105,12 @@ public class LoginActivity extends AppCompatActivity {
                 });
             }
         });
+        binding.activityLoginBtnExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                System.exit(0);
+            }
+        });
     }
 }
