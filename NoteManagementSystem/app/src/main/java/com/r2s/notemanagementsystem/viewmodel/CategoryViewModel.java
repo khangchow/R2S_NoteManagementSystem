@@ -15,29 +15,46 @@ public class CategoryViewModel extends AndroidViewModel {
     private CategoryRepository mCateRepo;
     private LiveData<List<Category>> mCates;
 
+    /**
+     * Constructor with 1 param
+     * @param application
+     */
     public CategoryViewModel(@NonNull Application application) {
         super(application);
         this.mCateRepo = new CategoryRepository(application);
         this.mCates = mCateRepo.getAllCate();
     }
 
+    /**
+     * return all category
+     * @param uId
+     * @return
+     */
     public LiveData<List<Category>> loadAllCate(int uId) {
         return mCates;
     }
 
+    /**
+     * insert new Category
+     * @param category
+     */
     public void insertCate(Category category) {
         mCateRepo.insert(category);
     }
 
+    /**
+     * update category
+     * @param category
+     */
     public void updateCate(Category category) {
         mCateRepo.update(category);
     }
 
+    /**
+     * delete category
+     * @param category
+     */
     public void deleteCate(Category category) {
         mCateRepo.delete(category);
-    }
-
-    public Category loadCateById(int id) {
-        return mCateRepo.getCateById(id);
     }
 }

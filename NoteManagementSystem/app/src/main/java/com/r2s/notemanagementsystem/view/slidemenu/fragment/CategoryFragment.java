@@ -3,6 +3,7 @@ package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,9 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.CategoryAdapter;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.model.Category;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.view.dialog.AddNewCategoryDialog;
 import com.r2s.notemanagementsystem.viewmodel.CategoryViewModel;
 
@@ -27,9 +32,17 @@ public class CategoryFragment extends Fragment {
     private CategoryViewModel mCateViewModel;
     private CategoryAdapter mAdapter;
     private int uId = 1;
+    private User mUser;
 
     public CategoryFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
     }
 
     @Override
