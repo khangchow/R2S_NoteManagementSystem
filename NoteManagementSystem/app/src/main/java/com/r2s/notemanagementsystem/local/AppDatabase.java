@@ -35,10 +35,11 @@ public abstract class AppDatabase extends RoomDatabase {
     public static AppDatabase getInstance(Context context) {
         if (mInstance == null) {
             synchronized (context) {
-                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").fallbackToDestructiveMigration().build();
+                mInstance = Room.databaseBuilder(context, AppDatabase.class, "appdb").build();
             }
         }
 
         return mInstance;
     }
 }
+
