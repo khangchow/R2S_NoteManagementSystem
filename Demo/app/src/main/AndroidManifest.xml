@@ -21,6 +21,7 @@
         <activity
             android:name=".view.slidemenu.MainActivity"
             android:exported="true">
+
         </activity>
     </application>
 

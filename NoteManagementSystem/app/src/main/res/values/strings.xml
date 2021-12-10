@@ -2,15 +2,41 @@
     <string name="app_name">Note Management System</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="hello_blank_fragment">hi</string>
+    <string name="name_category">Name category</string>
+    <string name="created_date">Created date</string>
+    <string name="category_form">Category form</string>
+    <string name="add">Add</string>
+    <string name="cancel">Cancel</string>
+    <string name="button_update">Update</string>
+    <string name="edit">Edit</string>
+    <string name="edit_category_form">Edit category form</string>
+    <string name="update">Update</string>
 
-    <!-- Note fragment-->
-    <string name="description_fab">add</string>
-    <string name="edt_hint_enter_note_name">Enter note name</string>
-    <string name="hint_auto_complete_category">Select category</string>
-    <string name="hint_auto_complete_priority">Select Priority</string>
-    <string name="hint_auto_complete_status">Select Status</string>
-    <string name="txt_select_plan_date">Select plan date</string>
-    <string name="btn_three_dots">…</string>
-    <string name="btn_add_new_note">Add</string>
-    <string name="btn_close_new_note">Close</string>
+    <string name="open_priority_dialog">Open Priority Dialog</string>
+    <string name="open_status_dialog">Open Status Dialog</string>
+
+    <string name="close">Close</string>
+
+    <string name="priority_form">Priority Form</string>
+    <string name="status_form">Status Form</string>
+
+    <string name="priority_name">PriorityName</string>
+    <string name="priority_created_date">PriorityCreatedDate</string>
+    <string name="author_id">AuthorId</string>
+
+    <string name="status_created_date">StatusCreatedDate</string>
+    <string name="status_name">StatusName</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="user_name">Username</string>
+    <string name="user_email">username@gmail.com</string>
+    <string name="edt_hint_enter_note_name">enter note name</string>
+    <string name="hint_auto_complete_category">auto complete</string>
+    <string name="hint_auto_complete_priority">auto comple priority</string>
+    <string name="hint_auto_complete_status">auto complete status</string>
+    <string name="txt_select_plan_date">select plan</string>
+    <string name="btn_three_dots">three dots</string>
+    <string name="btn_add_new_note">new note</string>
+    <string name="btn_close_new_note">close new note</string>
+    <string name="description_fab">description</string>
 </resources>

@@ -3,13 +3,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/note_fragment">
+    app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/note_fragment"
-        android:name="com.r2s.notemanagementsystem.view.slidemenu.FragmentNote"
-        android:label="Note Form"
-        tools:layout="@layout/fragment_note">
+        android:id="@+id/homeFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.HomeFragment"
+        android:label="DashBoard Form"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_homeFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/categoryFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.CategoryFragment"
+        android:label="Category Form"
+        tools:layout="@layout/fragment_category" >
+        <action
+            android:id="@+id/action_categoryFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
+        <action
+            android:id="@+id/action_categoryFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/priorityFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.PriorityFragment"
+        android:label="fragment_priority"
+        tools:layout="@layout/fragment_priority" >
+        <argument
+            android:name="arg_priority_input"
+            app:argType="string"
+            android:defaultValue="0" />
+        <action
+            android:id="@+id/action_priorityFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_priorityFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_priorityFragment_to_statusFragment"
+            app:destination="@id/statusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/statusFragment"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.StatusFragment"
+        android:label="fragment_status"
+        tools:layout="@layout/fragment_status" >
+        <action
+            android:id="@+id/action_statusFragment_to_categoryFragment"
+            app:destination="@id/categoryFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_statusFragment_to_priorityFragment"
+            app:destination="@id/priorityFragment" />
     </fragment>
 
 </navigation>
