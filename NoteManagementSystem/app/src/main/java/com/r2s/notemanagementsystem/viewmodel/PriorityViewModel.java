@@ -35,7 +35,7 @@ public class PriorityViewModel extends AndroidViewModel {
      * This method returns all notes by current logged in user
      * @return LiveData List
      */
-    public LiveData<List<Priority>> getPrioritiesByUserId() {
+    public LiveData<List<Priority>> getAllPrioritiesByUserId() {
         return mPriorities;
     }
 

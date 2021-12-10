@@ -36,7 +36,7 @@ public class StatusViewModel extends AndroidViewModel {
      * This method returns all notes by current logged in user
      * @return LiveData List
      */
-    public LiveData<List<Status>> getStatusesByUserId() {
+    public LiveData<List<Status>> getAllStatusesByUserId() {
         return mStatuses;
     }
 
