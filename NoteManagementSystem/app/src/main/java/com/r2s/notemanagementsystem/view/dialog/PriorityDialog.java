@@ -1,13 +1,9 @@
 package com.r2s.notemanagementsystem.view.dialog;
 
-import android.app.Application;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,19 +11,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.PriorityAdapter;
-import com.r2s.notemanagementsystem.constant.PriorityConstant;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.DialogPriorityBinding;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.Executors;
 
 public class PriorityDialog extends DialogFragment implements View.OnClickListener {
 
@@ -37,9 +34,7 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     private PriorityAdapter mPriorityAdapter;
     private List<Priority> mPriorities = new ArrayList<>();
     private Bundle bundle = new Bundle();
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     /**
      * This method is called when a view is being created
@@ -50,8 +45,12 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = DialogPriorityBinding.inflate(inflater, container, false);
+
+        setUserInfo();
 
         return binding.getRoot();
     }
@@ -90,7 +89,8 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
      * This method sets up the ViewModel
      */
     private void setUpViewModel() {
-        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
+        mPriorityViewModel.getPrioritiesByUserId(mUser.getUid())
+                .observe(getViewLifecycleOwner(), priorities -> {
             mPriorityAdapter.setPriorities(priorities);
         });
     }
@@ -103,25 +103,30 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_priority:
-                if (binding.btnAddPriority.getText().toString().equalsIgnoreCase("add")) {
-                    String currentDate = getCurrentLocalDateTimeStamp();
-                    Priority priority = new Priority(0, binding.etPriority.getText().toString(), currentDate, userId);
-
+                if (binding.btnAddPriority.getText().toString()
+                        .equalsIgnoreCase("add")) {
+                    final Priority priority = new Priority(0,
+                            binding.etPriority.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
                     mPriorityViewModel.insertPriority(priority);
 
-                    Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Create " +
+                            binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
 
-                if (binding.btnAddPriority.getText().toString().equalsIgnoreCase("update")) {
+                if (binding.btnAddPriority.getText().toString()
+                        .equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("priority_id");
 
-                    String currentDate = getCurrentLocalDateTimeStamp();
-                    Priority priority = new Priority(updateId, binding.etPriority.getText().toString(), currentDate, userId);
+                    final Priority priority = new Priority(updateId,
+                            binding.etPriority.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
 
                     mPriorityViewModel.updatePriority(priority);
 
-                    Toast.makeText(getActivity(), binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Update to " +
+                            binding.etPriority.getText().toString(), Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
                 break;
@@ -146,5 +151,12 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    /**
+     * This method get the user data from the SharedPreference
+     */
+    private void setUserInfo() {
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
     }
 }

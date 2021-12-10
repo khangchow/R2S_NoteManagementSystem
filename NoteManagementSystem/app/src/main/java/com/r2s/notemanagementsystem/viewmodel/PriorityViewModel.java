@@ -6,17 +6,20 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.google.gson.Gson;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.model.User;
 import com.r2s.notemanagementsystem.repository.PriorityRepository;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 
 import java.util.List;
 
 public class PriorityViewModel extends AndroidViewModel {
+
     private PriorityRepository mPriorityRepository;
     private LiveData<List<Priority>> mPriorities;
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     /**
      * Constructor with 1 parameter
@@ -26,7 +29,9 @@ public class PriorityViewModel extends AndroidViewModel {
         super(application);
         this.mPriorityRepository = new PriorityRepository(application);
 
-        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId(userId);
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
+
+        this.mPriorities = mPriorityRepository.getAllPrioritiesByUserId(mUser.getUid());
     }
 
     /**
@@ -34,7 +39,7 @@ public class PriorityViewModel extends AndroidViewModel {
      * @param userId int
      * @return LiveData List
      */
-    public LiveData<List<Priority>> getAllPrioritiesByUserId(int userId) {
+    public LiveData<List<Priority>> getPrioritiesByUserId(int userId) {
         return mPriorities;
     }
 

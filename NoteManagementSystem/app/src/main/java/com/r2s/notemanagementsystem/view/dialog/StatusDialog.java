@@ -11,10 +11,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.StatusAdapter;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.DialogStatusBinding;
 import com.r2s.notemanagementsystem.model.Status;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.viewmodel.StatusViewModel;
 
 import java.time.LocalDateTime;
@@ -30,9 +34,7 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
     private StatusAdapter mStatusAdapter;
     private List<Status> mStatuses = new ArrayList<>();
     private Bundle bundle = new Bundle();
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     /**
      * This method is called when a view is being created
@@ -43,8 +45,13 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         binding = DialogStatusBinding.inflate(inflater, container, false);
+
+        setUserInfo();
+
         return binding.getRoot();
     }
 
@@ -62,6 +69,12 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
 
         setUpViewModel();
         setOnClicks();
+
+        bundle = getArguments();
+        if (bundle != null) {
+            binding.btnAddStatus.setText("Update");
+            binding.btnCloseStatus.setText(bundle.getString("priority_name" ));
+        }
     }
 
     /**
@@ -76,7 +89,8 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
      * This method sets up the ViewModel
      */
     public void setUpViewModel() {
-        mStatusViewModel.getAllStatuses().observe(getViewLifecycleOwner(), statuses -> {
+        mStatusViewModel.getStatusesByUserId(mUser.getUid())
+                .observe(getViewLifecycleOwner(), statuses -> {
             mStatusAdapter.setStatuses(statuses);
         });
     }
@@ -89,25 +103,29 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_add_status:
-                if (binding.btnAddStatus.getText().toString().equalsIgnoreCase("add")) {
-                    String currentDate = getCurrentLocalDateTimeStamp();
-                    Status status = new Status(0, binding.etStatus.getText().toString(), currentDate, 1);
-
+                if (binding.btnAddStatus.getText().toString()
+                        .equalsIgnoreCase("add")) {
+                    final Status status = new Status(0, binding.etStatus.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
                     mStatusViewModel.insertStatus(status);
 
-                    Toast.makeText(getActivity(), binding.etStatus.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Create " +
+                            binding.etStatus.getText().toString(), Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
 
-                if (binding.btnAddStatus.getText().toString().equalsIgnoreCase("update")) {
+                if (binding.btnAddStatus.getText().toString()
+                        .equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("status_id");
-
-                    String currentDate = getCurrentLocalDateTimeStamp();
-                    Status status = new Status(updateId, binding.etStatus.getText().toString(), currentDate, userId);
+                    final Status status = new Status(updateId,
+                            binding.etStatus.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
+                    mStatusViewModel.insertStatus(status);
 
                     mStatusViewModel.updateStatus(status);
 
-                    Toast.makeText(getActivity(), binding.etStatus.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Update to " +
+                            binding.etStatus.getText().toString(), Toast.LENGTH_SHORT).show();
                     dismiss();
                 }
                 break;
@@ -132,5 +150,12 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    /**
+     * This method get the user data from the SharedPreference
+     */
+    private void setUserInfo() {
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
     }
 }
