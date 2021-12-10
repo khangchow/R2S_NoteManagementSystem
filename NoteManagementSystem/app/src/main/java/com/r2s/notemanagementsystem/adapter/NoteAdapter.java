@@ -123,7 +123,6 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder
             String statusName = "Status: " + note.getStatus();
             String planDate = "Plan Date: " + note.getPlanDate();
             String createdDate = "Created Date: " + note.getCreatedDate();
-            String NoteUserId = "Author Id: " + String.valueOf(note.getUserId());
 
             binding.tvNoteName.setText(noteName);
             binding.tvNoteCategoryName.setText(categoryName);

@@ -34,8 +34,6 @@ public class FragmentNote extends Fragment implements View.OnClickListener {
     private List<Note> mNotes = new ArrayList<>();
     private AppDatabase mDb;
 
-    // Replace with SharedPreferences user id
-    private int userId = 1;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,12 +45,11 @@ public class FragmentNote extends Fragment implements View.OnClickListener {
     private String mParam2;
 
     public FragmentNote() {
-        // Required empty public constructor
+        // Required empty constructor
     }
 
     /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
+     * This fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
@@ -95,7 +92,6 @@ public class FragmentNote extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentNoteBinding.inflate(getLayoutInflater());
-
         return binding.getRoot();
     }
 
@@ -203,7 +199,7 @@ public class FragmentNote extends Fragment implements View.OnClickListener {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mNoteViewModel.getAllNotesByUserId(userId).observe(getViewLifecycleOwner(), notes -> {
+                        mNoteViewModel.getAllNotesByUserId().observe(getViewLifecycleOwner(), notes -> {
                             mNoteAdapter.setNotes(notes);
                         });
                     }

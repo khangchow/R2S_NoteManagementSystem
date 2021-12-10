@@ -57,10 +57,10 @@
     <string name="user_name">Username</string>
     <string name="user_email">username@gmail.com</string>
     <string name="edt_hint_enter_note_name">enter note name</string>
-    <string name="hint_auto_complete_category">auto complete category</string>
-    <string name="hint_auto_complete_priority">auto complete priority</string>
-    <string name="hint_auto_complete_status">auto complete status</string>
-    <string name="txt_select_plan_date">select plan</string>
+    <string name="hint_auto_complete_category">Select category</string>
+    <string name="hint_auto_complete_priority">Select priority</string>
+    <string name="hint_auto_complete_status">Select status</string>
+    <string name="txt_select_plan_date">Select plan date</string>
     <string name="btn_three_dots">…</string>
     <string name="btn_add_new_note">Add</string>
     <string name="btn_close_new_note">Close</string>
