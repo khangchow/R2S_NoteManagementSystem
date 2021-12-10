@@ -34,6 +34,9 @@ public class User {
         this.password = password;
     }
 
+    public User(int i, String toString, String toString1) {
+    }
+
     public int getUid() {
         return uid;
     }

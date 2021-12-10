@@ -30,8 +30,7 @@ public interface UserDao {
     @Update
     void update(User user);
 
-    @Update
-    void updateprofile(User user);
+
 
     @Update
     void changePassword(User user);

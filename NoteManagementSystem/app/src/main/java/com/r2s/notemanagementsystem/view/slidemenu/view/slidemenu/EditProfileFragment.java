@@ -29,7 +29,6 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
 
     private FragmentEditProfileBinding binding;
     private UserViewModel mUserViewModel;
-    private User mUser;
     private AppDatabase mDb;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -97,9 +96,10 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         }
     }
     private void editProfile(){
+        User mUser = new User();
         String strFirstName = binding.etFirstName.getText().toString();
         String strLastName = binding.etLastName.getText().toString();
-        String strEmail = binding.etEmail.getText().toString().trim();
+        String strEmail = binding.etEmail.getText().toString();
         if(TextUtils.isEmpty(strFirstName) || TextUtils.isEmpty(strLastName) ||
         TextUtils.isEmpty(strEmail)){
             return;
@@ -108,9 +108,7 @@ public class EditProfileFragment extends Fragment implements View.OnClickListene
         mUser.setLastName(strLastName);
         mUser.setEmail(strEmail);
 
-        AppDatabase.getInstance(getContext()).getUserDao().updateprofile(mUser);
+        AppDatabase.getInstance(getContext()).getUserDao().update(mUser);
         Toast.makeText(getContext(),"Update user successfully",Toast.LENGTH_SHORT).show();
-
-
     }
 }
