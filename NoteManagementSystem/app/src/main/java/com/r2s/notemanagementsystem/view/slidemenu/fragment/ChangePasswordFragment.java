@@ -2,6 +2,7 @@ package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.gson.Gson;
@@ -33,12 +36,14 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     private FragmentChangePasswordBinding binding;
     private UserViewModel mUserViewModel;
     private User mUser;
+    private NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         binding = FragmentChangePasswordBinding.inflate(getLayoutInflater());
+
         return binding.getRoot();
     }
 
@@ -64,17 +69,24 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
         String strPassword = binding.fragmentChangePasswordEtNew.getText().toString().trim();
 
         if(binding.fragmentChangePasswordEtNew.getText().toString().trim()
-                == binding.fragmentChangePasswordEtAgain.getText().toString().trim()
-        && isPasswordCorrect()){
-            mUser.setPassword(strPassword);
+                .equals(binding.fragmentChangePasswordEtAgain.getText().toString().trim())
+        && isPasswordCorrect()
+                && !mUser.equals(binding.fragmentChangePasswordEtNew.getText().toString())){
 
-            mUserViewModel.updateUser(mUser);
+            mUser.setPassword(strPassword);
 
             //Doi profile tren database
             mUserViewModel.updateUser(mUser);
 
             //Doi profile cua thong tin dang nhap
             AppPrefsUtils.putString(Constants.KEY_USER_DATA, new Gson().toJson(mUser));
+
+            //Reset các field
+            binding.fragmentChangePasswordEtCurrent.setText(null);
+
+            binding.fragmentChangePasswordEtNew.setText(null);
+
+            binding.fragmentChangePasswordEtAgain.setText(null);
 
             Toast.makeText(getActivity(),"Change password successfully",Toast.LENGTH_SHORT)
                     .show();
@@ -85,6 +97,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
     }
 
     private boolean isPasswordCorrect(){
+        Log.d("PASS", mUser.getPassword()+" "+binding.fragmentChangePasswordEtCurrent.getText().toString());
         return mUser.getPassword()
                 .equals(binding.fragmentChangePasswordEtCurrent.getText().toString());
     }
@@ -95,10 +108,20 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
             case R.id.btn_change_password:
                 updatePassword();
                 break;
-            case R.id.btn_home_change_password:
 
+            case R.id.btn_home_change_password:
+                navController.navigate(
+                        R.id.action_slide_menu_nav_change_password_to_slide_menu_nav_home);
                 break;
 
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        navController = Navigation.findNavController(getActivity()
+                , R.id.nav_host_fragment_content_home);
     }
 }
