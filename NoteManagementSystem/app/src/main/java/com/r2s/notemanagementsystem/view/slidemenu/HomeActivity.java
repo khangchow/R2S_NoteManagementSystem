@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -49,9 +50,7 @@ public class HomeActivity extends AppCompatActivity {
 
         initHeaderViews();
 
-        setUserDataToHeader();
-
-        //setUpViewModel();
+        setUpViewModel();
     }
 
     private void setUpSlideMenu() {
@@ -78,17 +77,20 @@ public class HomeActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
-//    private void setUpViewModel() {
-//        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-//
-//        mUserViewModel.getUser().observe(this, user -> {
-//            if (user != null) {
-//                mUser = user;
-//            }
-//
-//            setUserDataToHeader();
-//        });
-//    }
+    private void setUpViewModel() {
+        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        mUserViewModel.getUser().observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    mUser = user;
+
+                    setUserDataToHeader();
+                }
+            }
+        });
+    }
 
     private void setUserDataToHeader() {
         tvName.setText(mUser.getLastName() + " " + mUser.getFirstName());
