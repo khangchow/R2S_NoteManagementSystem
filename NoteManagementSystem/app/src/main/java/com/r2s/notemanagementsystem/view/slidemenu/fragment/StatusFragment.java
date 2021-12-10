@@ -15,12 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.StatusAdapter;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.FragmentStatusBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.model.Status;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.view.dialog.StatusDialog;
 import com.r2s.notemanagementsystem.viewmodel.StatusViewModel;
 
@@ -38,9 +42,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
     private StatusAdapter mStatusAdapter;
     private List<Status> mStatuses = new ArrayList<>();
     private AppDatabase mDb;
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -84,6 +86,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setUserInfo();
     }
 
     /**
@@ -117,9 +120,12 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
 
         mDb = Room.databaseBuilder(requireContext(), AppDatabase.class, "appdb").build();
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView,
+                                  @NonNull RecyclerView.ViewHolder viewHolder,
+                                  @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
@@ -202,12 +208,20 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mStatusViewModel.getAllStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
+                        mStatusViewModel.getStatusesByUserId(mUser.getUid())
+                                .observe(getViewLifecycleOwner(), statuses -> {
                             mStatusAdapter.setStatuses(statuses);
                         });
                     }
                 });
             }
         });
+    }
+
+    /**
+     * This method get the user data from the SharedPreference
+     */
+    private void setUserInfo() {
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
     }
 }

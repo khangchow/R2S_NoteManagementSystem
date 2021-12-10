@@ -14,9 +14,6 @@ import java.util.List;
 
 @Dao
 public interface PriorityDao {
-    @Query("SELECT * FROM priority_table")
-    LiveData<List<Priority>> getAll();
-
     @Query("SELECT * FROM priority_table WHERE userId IN (:user_id)")
     LiveData<List<Priority>> getAllByUserId(int user_id);
 

@@ -16,12 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.PriorityAdapter;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.FragmentPriorityBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.view.dialog.PriorityDialog;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
@@ -39,9 +43,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
     private PriorityAdapter mPriorityAdapter;
     private List<Priority> mPriorities = new ArrayList<>();
     private AppDatabase mDb;
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,6 +87,7 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        setUserInfo();
     }
 
     /**
@@ -205,7 +208,8 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
+                        mPriorityViewModel.getPrioritiesByUserId(mUser.getUid())
+                                .observe(getViewLifecycleOwner(), priorities -> {
                             mPriorityAdapter.setPriorities(priorities);
                         });
                     }
@@ -213,5 +217,12 @@ public class PriorityFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+    }
+
+    /**
+     * This method get the user data from the SharedPreference
+     */
+    private void setUserInfo() {
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
     }
 }

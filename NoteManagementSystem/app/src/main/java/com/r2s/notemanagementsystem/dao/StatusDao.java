@@ -14,9 +14,6 @@ import java.util.List;
 
 @Dao
 public interface StatusDao {
-    @Query("SELECT * FROM status_table")
-    LiveData<List<Status>> getAll();
-
     @Query("SELECT * FROM status_table WHERE userId IN (:user_id)")
     LiveData<List<Status>> getAllByUserId(int user_id);
 

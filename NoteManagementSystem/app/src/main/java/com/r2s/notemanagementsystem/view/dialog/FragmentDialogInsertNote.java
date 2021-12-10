@@ -1,8 +1,5 @@
 package com.r2s.notemanagementsystem.view.dialog;
 
-import static android.content.ContentValues.TAG;
-
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -12,29 +9,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.adapter.NoteAdapter;
-import com.r2s.notemanagementsystem.constant.NoteConstant;
 import com.r2s.notemanagementsystem.databinding.DialogFragmentInsertNoteBinding;
-import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.model.Note;
-import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.viewmodel.CategoryViewModel;
 import com.r2s.notemanagementsystem.viewmodel.NoteViewModel;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
@@ -194,7 +181,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         binding.autoCompleteCategory.setAdapter(adapterItemCategory);
 
         // auto complete for priority
-        mPriorityViewModel.getAllPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
+        mPriorityViewModel.getPrioritiesByUserId(userId).observe(getViewLifecycleOwner(), priorities -> {
             for(int i = 0; i < priorities.size();i++){
                 listStringPri.add(priorities.get(i).getName());
             }
@@ -203,7 +190,7 @@ public class FragmentDialogInsertNote extends DialogFragment implements View.OnC
         binding.autoCompletePriority.setAdapter(adapterItemPriority);
 
         // auto complete for status
-        mStatusViewModel.getAllStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
+        mStatusViewModel.getStatusesByUserId(userId).observe(getViewLifecycleOwner(), statuses -> {
             for(int i = 0; i < statuses.size();i++){
                 listStringSta.add(statuses.get(i).getName());
             }

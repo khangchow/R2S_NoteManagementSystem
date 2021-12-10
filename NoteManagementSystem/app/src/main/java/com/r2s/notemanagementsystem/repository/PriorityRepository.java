@@ -4,9 +4,13 @@ import android.content.Context;
 
 import androidx.lifecycle.LiveData;
 
+import com.google.gson.Gson;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.dao.PriorityDao;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -15,24 +19,23 @@ public class PriorityRepository {
     private AppDatabase mDb;
     private PriorityDao mPriorityDao;
     private LiveData<List<Priority>> mPriorities;
-
-    // Replace with SharedPreferences user id
-    private int userId = 1;
+    private User mUser;
 
     /**
      * This method is used as constructor for PriorityRepository class
-     * @param context
+     * @param context Context
      */
     public PriorityRepository(Context context) {
         this.mDb = AppDatabase.getInstance(context);
-
         this.mPriorityDao = mDb.getPriorityDao();
 
-        this.mPriorities = mPriorityDao.getAllByUserId(userId);
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
+
+        this.mPriorities = mPriorityDao.getAllByUserId(mUser.getUid());
     }
 
     /**
-     * This method returns all notes by current logged in user
+     * This method returns all priorities by current logged in user
      * @param userId int
      * @return LiveData List
      */
