@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.Dao;
+package com.r2s.notemanagementsystem.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;

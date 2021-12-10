@@ -17,6 +17,9 @@ import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.viewmodel.CategoryViewModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class AddNewCategoryDialog extends DialogFragment implements View.OnClickListener {
     private TextInputEditText etNewCate;
     private AppCompatButton btnAdd, btnCancel;
@@ -54,7 +57,8 @@ public class AddNewCategoryDialog extends DialogFragment implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnAdd:
-                Category category = new Category(0, etNewCate.getText().toString());
+                String currentTime = getCurrentTime();
+                Category category = new Category(0, etNewCate.getText().toString(), currentTime);
                 if (etNewCate.getText().toString().equals("")) {
                     Toast.makeText(getContext(), "Vui lòng nhập tên", Toast.LENGTH_SHORT).show();
                 } else {
@@ -64,5 +68,13 @@ public class AddNewCategoryDialog extends DialogFragment implements View.OnClick
                 dismiss();
                 break;
         }
+    }
+
+    /**
+     * get current time
+     * @return
+     */
+    private String getCurrentTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

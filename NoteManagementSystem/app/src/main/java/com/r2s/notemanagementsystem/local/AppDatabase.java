@@ -6,9 +6,9 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-import com.r2s.notemanagementsystem.Dao.CategoryDao;
-import com.r2s.notemanagementsystem.Dao.PriorityDao;
-import com.r2s.notemanagementsystem.Dao.StatusDao;
+import com.r2s.notemanagementsystem.dao.CategoryDao;
+import com.r2s.notemanagementsystem.dao.PriorityDao;
+import com.r2s.notemanagementsystem.dao.StatusDao;
 import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.model.Status;
