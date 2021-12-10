@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.r2s.notemanagementsystem.databinding.RowStatusListBinding;
 import com.r2s.notemanagementsystem.model.Status;
-import com.r2s.notemanagementsystem.view.slidemenu.StatusDialog;
+import com.r2s.notemanagementsystem.view.dialog.StatusDialog;
 
 import java.util.List;
 import java.lang.String;
@@ -99,11 +99,9 @@ public class StatusAdapter extends  RecyclerView.Adapter<StatusAdapter.StatusVie
         public void bind(Status status) {
             String statusName = "Name: " + status.getName();
             String statusCreatedDate = "Created Date: " + status.getCreatedDate();
-            String statusUserId = "Author Id: " + String.valueOf(status.getUserId());
 
             binding.tvStatusName.setText(statusName);
             binding.tvStatusCreatedDate.setText(statusCreatedDate);
-            binding.tvStatusAuthorId.setText(statusUserId);
         }
     }
 }

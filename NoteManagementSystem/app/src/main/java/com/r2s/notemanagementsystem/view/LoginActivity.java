@@ -12,14 +12,11 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
-import com.r2s.notemanagementsystem.view.slidemenu.MainActivity;
-import com.r2s.notemanagementsystem.constants.AppExecutors;
-import com.r2s.notemanagementsystem.constants.Constants;
 import com.r2s.notemanagementsystem.constant.UserConstant;
 import com.r2s.notemanagementsystem.databinding.ActivityLoginBinding;
 import com.r2s.notemanagementsystem.model.User;
 import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
-import com.r2s.notemanagementsystem.view.slidemenu.MainActivity;
+import com.r2s.notemanagementsystem.view.slidemenu.HomeActivity;
 import com.r2s.notemanagementsystem.viewmodel.UserViewModel;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,12 +32,22 @@ public class LoginActivity extends AppCompatActivity {
 
         AppPrefsUtils.createAppPrefs(this);
 
-        if(isRememberUser(AppPrefsUtils.getString(UserConstant.KEY_REMEMBER_USER)))
+        if(isRememberUser(AppPrefsUtils.getString(UserConstant.KEY_REMEMBER_USER))) {
             showMainActivity();
+        }else {
+            userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+            initEvents();
 
-        initEvents();
+            if (getIntent().hasExtra(UserConstant.KEY_GMAIL)
+                    && getIntent().hasExtra(UserConstant.KEY_PASS)) {
+                Intent intent = getIntent();
+
+                binding.activityLoginEtEmail.setText(intent.getStringExtra(UserConstant.KEY_GMAIL));
+
+                binding.activityLoginEtPassword.setText(intent.getStringExtra(UserConstant.KEY_PASS));
+            }
+        }
     }
 
     /**
@@ -58,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
      * This method created to show main activity
      */
     public void showMainActivity(){
-        Intent intent = new Intent(LoginActivity.this, DemoLoggedActivity.class);
+        Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
         startActivity(intent);
         finish();
     }
@@ -79,9 +86,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 User user = new User();
                 user.setEmail(binding.activityLoginEtEmail.getText().toString().trim());
-                user.setPass(binding.activityLoginEtPassword.getText().toString().trim());
+                user.setPassword(binding.activityLoginEtPassword.getText().toString().trim());
 
-                userViewModel.login(user.getEmail(), user.getPass()).observe(LoginActivity.this, new Observer<User>() {
+                userViewModel.login(user.getEmail(), user.getPassword()).observe(LoginActivity.this, new Observer<User>() {
                     @Override
                     public void onChanged(User mUser) {
                         if(mUser==null) {

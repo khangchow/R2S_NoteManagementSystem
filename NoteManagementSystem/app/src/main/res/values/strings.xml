@@ -27,15 +27,6 @@
     <string name="app_etnewpassword">Enter new password</string>
     <string name="app_etpasswordagain">Enter password again</string>
 
-    <string name="description_fab">add</string>
-    <string name="edt_hint_enter_note_name">Enter note name</string>
-    <string name="hint_auto_complete_category">Select category</string>
-    <string name="hint_auto_complete_priority">Select Priority</string>
-    <string name="hint_auto_complete_status">Select Status</string>
-    <string name="txt_select_plan_date">Select plan date</string>
-    <string name="btn_three_dots">…</string>
-    <string name="btn_add_new_note">Add</string>
-    <string name="btn_close_new_note">Close</string>
     <string name="register_form_heading_text">Sign up form</string>
     <string name="btn_exit_text">Exit</string>
     <string name="btn_login_text">Sign In</string>
@@ -77,4 +68,13 @@
     <string name="login_failed">Email or password is incorrect</string>
     <string name="logged_in">Logged in</string>
     <string name="user_created">User created successfully!</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
 </resources>

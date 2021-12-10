@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.constant.Constants;
+import com.r2s.notemanagementsystem.constant.UserConstant;
 import com.r2s.notemanagementsystem.databinding.ActivityRegisterBinding;
 import com.r2s.notemanagementsystem.model.User;
 import com.r2s.notemanagementsystem.viewmodel.UserViewModel;
@@ -27,6 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+
         setContentView(binding.getRoot());
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -51,17 +53,19 @@ public class RegisterActivity extends AppCompatActivity {
      * @return
      */
     private Boolean validateInput(User user){
-        String passwordConfirm = binding.activityRegisterEtPasswordConfirm.getText().toString().trim();
+        String passwordConfirm = binding.activityRegisterEtPasswordConfirm
+                .getText().toString().trim();
 
         if(!user.getEmail().matches(Constants.emailPattern)){
             binding.activityRegisterEtEmail.setError(getResources().getString(R.string.et_email_invalid));
             return false;
         }
-        if(TextUtils.isEmpty(user.getPass())){
+        if(TextUtils.isEmpty(user.getPassword())){
             binding.activityRegisterEtPassword.setError(getResources().getString(R.string.et_pwd_invalid));
             return false;
         }
-        if(TextUtils.isEmpty(passwordConfirm)||!TextUtils.equals(user.getPass(),passwordConfirm)){
+        if(TextUtils.isEmpty(passwordConfirm)
+                || !TextUtils.equals(user.getPassword(),passwordConfirm)){
             binding.activityRegisterEtPasswordConfirm.setError(getResources().getString(R.string.et_pwd_confirm_invalid));
             return false;
         }
@@ -77,11 +81,14 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 User user = new User();
+
                 user.setEmail(binding.activityRegisterEtEmail.getText().toString().trim());
-                user.setPass(binding.activityRegisterEtPassword.getText().toString().trim());
+
+                user.setPassword(binding.activityRegisterEtPassword.getText().toString().trim());
 
                 if(validateInput(user)){
-                    userViewModel.count(user.getEmail()).observe(RegisterActivity.this, new Observer<Integer>() {
+                    userViewModel.count(user.getEmail())
+                            .observe(RegisterActivity.this, new Observer<Integer>() {
                         @Override
                         public void onChanged(@Nullable Integer integer) {
                             if(integer<1){
@@ -89,13 +96,22 @@ public class RegisterActivity extends AppCompatActivity {
 
                                 isExist = false;
 
-                                Toast.makeText(RegisterActivity.this, getResources().getString(R.string.user_created), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(RegisterActivity.this
+                                        , getResources().getString(R.string.user_created), Toast.LENGTH_SHORT).show();
 
                                 Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+
+                                intent.putExtra(UserConstant.KEY_GMAIL
+                                        , binding.activityRegisterEtEmail.getText().toString());
+
+                                intent.putExtra(UserConstant.KEY_PASS
+                                        , binding.activityRegisterEtPassword.getText().toString());
+
                                 startActivity(intent);
+
                                 finish();
                             }
-                            if(isExist==true)
+                            if(isExist == true)
                                 binding.activityRegisterEtEmail.setError(getResources().getString(R.string.et_email_exists));
                         }
                     });

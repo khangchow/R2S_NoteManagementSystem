@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.view.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 
 import android.os.Bundle;
 
@@ -21,6 +21,7 @@ import com.r2s.notemanagementsystem.databinding.FragmentStatusBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.model.Status;
+import com.r2s.notemanagementsystem.view.dialog.StatusDialog;
 import com.r2s.notemanagementsystem.viewmodel.StatusViewModel;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.view.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 
 import android.os.Bundle;
 
@@ -22,6 +22,7 @@ import com.r2s.notemanagementsystem.databinding.FragmentPriorityBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.local.AppExecutors;
 import com.r2s.notemanagementsystem.model.Priority;
+import com.r2s.notemanagementsystem.view.dialog.PriorityDialog;
 import com.r2s.notemanagementsystem.viewmodel.PriorityViewModel;
 
 import java.util.ArrayList;

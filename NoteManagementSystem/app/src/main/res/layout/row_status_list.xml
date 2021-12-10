@@ -3,7 +3,8 @@
     android:id="@+id/status_item"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/tv_status_name"
@@ -16,10 +17,4 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/status_created_date" />
-
-    <TextView
-        android:id="@+id/tv_status_author_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/author_id" />
 </LinearLayout>

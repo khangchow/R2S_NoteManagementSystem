@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.view.slidemenu.view.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.ui.NavigationUI;
 
+import com.google.gson.Gson;
 import com.r2s.notemanagementsystem.R;
+import com.r2s.notemanagementsystem.constant.Constants;
 import com.r2s.notemanagementsystem.databinding.FragmentChangePasswordBinding;
 import com.r2s.notemanagementsystem.databinding.FragmentEditProfileBinding;
 import com.r2s.notemanagementsystem.local.AppDatabase;
 import com.r2s.notemanagementsystem.model.User;
+import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
 import com.r2s.notemanagementsystem.viewmodel.UserViewModel;
 
 import java.util.List;
@@ -28,7 +32,6 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
 
     private FragmentChangePasswordBinding binding;
     private UserViewModel mUserViewModel;
-    private AppDatabase mDb;
     private User mUser;
 
     @Override
@@ -36,44 +39,54 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
                              Bundle savedInstanceState) {
 
         binding = FragmentChangePasswordBinding.inflate(getLayoutInflater());
-        binding.btnChangePassword.setOnClickListener(this);
-        binding.btnHomeChangePassword.setOnClickListener(this);
-        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//            setOnClick();
+
+        mUserViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        //Lay thong tin user tu phien dang nhap
+        mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
+
+        setOnClick();
     }
 
     private void setOnClick() {
         binding.btnChangePassword.setOnClickListener(this);
+
         binding.btnHomeChangePassword.setOnClickListener(this);
     }
 
     private void updatePassword() {
-
-
         String strPassword = binding.fragmentChangePasswordEtNew.getText().toString().trim();
 
-        if(binding.fragmentChangePasswordEtNew.getText().toString().trim() == binding.fragmentChangePasswordEtAgain.getText().toString().trim()
-        && isPasswordExit(mUser)){
+        if(binding.fragmentChangePasswordEtNew.getText().toString().trim()
+                == binding.fragmentChangePasswordEtAgain.getText().toString().trim()
+        && isPasswordCorrect()){
             mUser.setPassword(strPassword);
-            AppDatabase.getInstance(getContext()).getUserDao().changePassword(mUser);
-            Toast.makeText(getActivity(),"Change password successfully",Toast.LENGTH_SHORT).show();
+
+            mUserViewModel.updateUser(mUser);
+
+            //Doi profile tren database
+            mUserViewModel.updateUser(mUser);
+
+            //Doi profile cua thong tin dang nhap
+            AppPrefsUtils.putString(Constants.KEY_USER_DATA, new Gson().toJson(mUser));
+
+            Toast.makeText(getActivity(),"Change password successfully",Toast.LENGTH_SHORT)
+                    .show();
         }else{
             Toast.makeText(getActivity(),"Change password error",Toast.LENGTH_SHORT).show();
         }
 
     }
 
-    private boolean isPasswordExit(User user){
-        List<User> list = AppDatabase.getInstance(getContext()).getUserDao().checkUser(user.getPassword());
-        return list.isEmpty();
+    private boolean isPasswordCorrect(){
+        return mUser.getPassword()
+                .equals(binding.fragmentChangePasswordEtCurrent.getText().toString());
     }
 
     @Override
@@ -83,8 +96,7 @@ public class ChangePasswordFragment extends Fragment implements View.OnClickList
                 updatePassword();
                 break;
             case R.id.btn_home_change_password:
-                Intent intent = new Intent(getActivity().getApplicationContext(),HomeFragment.class);
-                startActivity(intent);
+
                 break;
 
         }

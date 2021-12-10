@@ -11,6 +11,7 @@ import com.r2s.notemanagementsystem.repository.UserRepository;
 
 public class UserViewModel extends AndroidViewModel {
     private UserRepository mUserRepo;
+    private LiveData<User> mUser = null;
 
     public UserViewModel(@NonNull Application application) {
         super(application);
@@ -24,9 +25,15 @@ public class UserViewModel extends AndroidViewModel {
 
     public void updateUser(User user) {
         mUserRepo.updateUser(user);
+
+        mUser = mUserRepo.getUserById(user.getUid());
     }
 
     public LiveData<Integer> count(String email){ return mUserRepo.count(email); }
 
     public LiveData<User> login(String email, String pass){return mUserRepo.login(email, pass);}
+
+    public LiveData<User> getUser() {
+        return mUser;
+    }
 }

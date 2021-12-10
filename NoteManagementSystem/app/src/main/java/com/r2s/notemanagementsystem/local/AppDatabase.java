@@ -10,17 +10,19 @@ import com.r2s.notemanagementsystem.dao.CategoryDao;
 import com.r2s.notemanagementsystem.dao.PriorityDao;
 import com.r2s.notemanagementsystem.dao.StatusDao;
 import com.r2s.notemanagementsystem.dao.NoteDAO;
+import com.r2s.notemanagementsystem.dao.UserDao;
 import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.model.Note;
 import com.r2s.notemanagementsystem.model.Priority;
 import com.r2s.notemanagementsystem.model.Status;
 import com.r2s.notemanagementsystem.model.Note;
+import com.r2s.notemanagementsystem.model.User;
 
 @Database(entities = {User.class, Category.class, Priority.class, Status.class, Note.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
 
-    public abstract UserDao userDao();
+    public abstract UserDao getUserDao();
     public abstract NoteDAO getNoteDAO();
 
     public abstract CategoryDao getCateDao();

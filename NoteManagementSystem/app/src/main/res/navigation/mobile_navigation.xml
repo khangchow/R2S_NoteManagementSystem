@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/slide_menu_nav_home">
+
+
+    <fragment
+        android:id="@+id/slide_menu_nav_home"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/slide_menu_nav_category"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.CategoryFragment"
+        android:label="fragment_category"
+        tools:layout="@layout/fragment_category" />
+    <fragment
+        android:id="@+id/slide_menu_nav_change_password"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.ChangePasswordFragment"
+        android:label="ChangePasswordFragment" />
+    <fragment
+        android:id="@+id/slide_menu_nav_edit_profile"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.EditProfileFragment"
+        android:label="fragment_edit_profile"
+        tools:layout="@layout/fragment_edit_profile" />
+    <fragment
+        android:id="@+id/slide_menu_nav_note"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.FragmentNote"
+        android:label="FragmentNote" />
+    <fragment
+        android:id="@+id/slide_menu_nav_priority"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.PriorityFragment"
+        android:label="fragment_priority"
+        tools:layout="@layout/fragment_priority" />
+    <fragment
+        android:id="@+id/slide_menu_nav_status"
+        android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.StatusFragment"
+        android:label="fragment_status"
+        tools:layout="@layout/fragment_status" />
+
+
+</navigation>

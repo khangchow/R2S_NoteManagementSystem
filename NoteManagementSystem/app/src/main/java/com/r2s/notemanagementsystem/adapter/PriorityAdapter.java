@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.r2s.notemanagementsystem.databinding.RowPriorityListBinding;
 import com.r2s.notemanagementsystem.model.Priority;
-import com.r2s.notemanagementsystem.view.slidemenu.PriorityDialog;
+import com.r2s.notemanagementsystem.view.dialog.PriorityDialog;
 
 import java.util.List;
 
@@ -114,11 +114,9 @@ public class PriorityAdapter extends RecyclerView.Adapter<PriorityAdapter.Priori
         public void bind(Priority priority) {
             String priorityName = "Name: " + priority.getName();
             String priorityCreatedDate = "Created Date: " + priority.getCreatedDate();
-            String priorityUserId = "Author Id: " + String.valueOf(priority.getUserId());
 
             binding.tvPriorityName.setText(priorityName);
             binding.tvPriorityCreatedDate.setText(priorityCreatedDate);
-            binding.tvPriorityAuthorId.setText(priorityUserId);
         }
     }
 }

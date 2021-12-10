@@ -1,4 +1,4 @@
-package com.r2s.notemanagementsystem.view.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu.fragment;
 
 import                                                      android.os.Bundle;
 
