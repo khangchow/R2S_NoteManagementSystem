@@ -81,8 +81,11 @@ public class LoginActivity extends AppCompatActivity {
                 userViewModel.login(user.getEmail(), user.getPass()).observe(LoginActivity.this, new Observer<User>() {
                     @Override
                     public void onChanged(User mUser) {
-                        if(mUser==null)
+                        if(mUser==null) {
                             Toast.makeText(getBaseContext(), getResources().getString(R.string.login_failed), Toast.LENGTH_SHORT).show();
+                            binding.activityLoginEtPassword.setText(null);
+                            binding.activityLoginEtEmail.requestFocus();
+                        }
                         else{
                             AppPrefsUtils.putString(UserConstant.KEY_USER_DATA
                                     , new Gson().toJson(mUser));

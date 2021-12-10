@@ -1,5 +1,7 @@
 package com.r2s.notemanagementsystem.model;
 
+import androidx.annotation.Nullable;
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -9,6 +11,14 @@ public class User {
     private int id;
     private String email;
     private String pass;
+
+    @ColumnInfo(name = "first_name", defaultValue = "NULL")
+    @Nullable
+    private String firstName;
+
+    @ColumnInfo(name = "last_name", defaultValue = "NULL")
+    @Nullable
+    private String lastName;
 
     public User(int id, String email, String pass) {
         this.email = email;
@@ -39,5 +49,23 @@ public class User {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    @Nullable
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(@Nullable String firstName) {
+        this.firstName = firstName;
+    }
+
+    @Nullable
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(@Nullable String lastName) {
+        this.lastName = lastName;
     }
 }
