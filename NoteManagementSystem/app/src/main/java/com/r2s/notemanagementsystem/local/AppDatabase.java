@@ -6,10 +6,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {}, version = 1)
+import com.r2s.notemanagementsystem.dao.UserDao;
+import com.r2s.notemanagementsystem.model.User;
+
+@Database(entities = {User.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase mInstance;
 
+    public abstract UserDao getUserDao();
     /**
      * This is a singleton method to get instance of database
      * @param context
@@ -24,4 +28,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
         return mInstance;
     }
+
 }

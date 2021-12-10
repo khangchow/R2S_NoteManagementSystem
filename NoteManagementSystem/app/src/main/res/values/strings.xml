@@ -1,5 +1,59 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Note Management System</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="app_editprofile">Edit profile</string>
+    <string name="app_etfirstname">Enter you first name</string>
+    <string name="app_etlastname">Enter you last name</string>
+    <string name="app_etemail">Enter you email</string>
+    <string name="app_btnChange">Change</string>
+    <string name="app_btnHome">Home</string>
+
+    <string name="app_changepassword">Change your password</string>
+    <string name="app_etcurrent">Enter current password </string>
+    <string name="app_etnewpassword">Enter new password</string>
+    <string name="app_etpasswordagain">Enter password again</string>
+
+    <string name="description_fab">add</string>
+    <string name="edt_hint_enter_note_name">Enter note name</string>
+    <string name="hint_auto_complete_category">Select category</string>
+    <string name="hint_auto_complete_priority">Select Priority</string>
+    <string name="hint_auto_complete_status">Select Status</string>
+    <string name="txt_select_plan_date">Select plan date</string>
+    <string name="btn_three_dots">…</string>
+    <string name="btn_add_new_note">Add</string>
+    <string name="btn_close_new_note">Close</string>
+    <string name="register_form_heading_text">Sign up form</string>
+    <string name="btn_exit_text">Exit</string>
+    <string name="btn_login_text">Sign In</string>
+    <string name="btn_register_text">Sign Up</string>
+    <string name="chk_remember_me_text">Remember me</string>
+    <string name="et_email_hint">Enter your email</string>
+    <string name="et_email_invalid">Invalid email!</string>
+    <string name="et_pwd_hint">Enter your password</string>
+    <string name="et_pwd_invalid">Invalid password</string>
+    <string name="et_pwd_confirm_hint">Confirm password</string>
+    <string name="et_pwd_confirm_invalid">Invalid password confirm</string>
+    <string name="open_priority_dialog">Open Priority Dialog</string>
+    <string name="open_status_dialog">Open Status Dialog</string>
+
+    <string name="add">Add</string>
+    <string name="close">Close</string>
+
+    <string name="priority_form">Priority Form</string>
+    <string name="status_form">Status Form</string>
+
+    <string name="priority_name">PriorityName</string>
+    <string name="priority_created_date">PriorityCreatedDate</string>
+    <string name="author_id">AuthorId</string>
+
+    <string name="status_created_date">StatusCreatedDate</string>
+    <string name="status_name">StatusName</string>
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="user_name">Username</string>
+    <string name="user_email">username@gmail.com</string>
 </resources>

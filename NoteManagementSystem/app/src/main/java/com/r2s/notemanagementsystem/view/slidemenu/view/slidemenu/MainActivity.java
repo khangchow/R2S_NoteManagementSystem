@@ -1,21 +1,22 @@
-package com.r2s.notemanagementsystem.view.slidemenu;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+package com.r2s.notemanagementsystem.view.slidemenu.view.slidemenu;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+
 import com.google.android.material.navigation.NavigationView;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.databinding.ActivityMainBinding;
-import com.r2s.notemanagementsystem.utils.AppPrefsUtils;
-import com.r2s.notemanagementsystem.view.LoginActivity;
+import com.r2s.notemanagementsystem.view.slidemenu.view.LoginActivity;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -63,7 +64,28 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.slide_menu_nav_home:
+                navController.navigateUp();
 
+                break;
+
+            case R.id.slide_menu_nav_category:
+                navController.navigateUp();
+
+                navController.navigate(R.id.action_homeFragment_to_categoryFragment);
+
+                break;
+
+            case R.id.slide_menu_nav_edit_profile:
+                navController.navigateUp();
+                navController.navigate(R.id.action_homeFragment_to_editProfileFragment);
+
+                break;
+
+            case R.id.slide_menu_nav_change_password:
+                navController.navigateUp();
+                navController.navigate(R.id.action_homeFragment_to_changePasswordFragment);
+                break;
         }
 
         binding.activityMainToolbar
@@ -91,5 +113,11 @@ public class MainActivity extends AppCompatActivity
 
             startActivity(intent);
         }
+    }
+
+    private  void replaceFragment(Fragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_main_fragment_container,fragment);
+        transaction.commit();
     }
 }
