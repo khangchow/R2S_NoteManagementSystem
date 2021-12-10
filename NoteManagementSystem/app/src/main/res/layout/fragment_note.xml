@@ -7,23 +7,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_note_fragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:gravity="end"
-        android:orientation="horizontal">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:backgroundTint="@color/btn_floating_insert"
-            android:contentDescription="@string/description_fab"
-            android:src="@drawable/ic_add_24"
-            app:tint="@android:color/white" />
-    </LinearLayout>
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/btn_floating_insert"
+        android:src="@drawable/ic_add"
+        app:tint="#8BC34A" />
 </RelativeLayout>

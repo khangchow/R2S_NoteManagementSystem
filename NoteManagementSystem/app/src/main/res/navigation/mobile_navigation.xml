@@ -9,17 +9,17 @@
     <fragment
         android:id="@+id/slide_menu_nav_home"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.HomeFragment"
-        android:label="fragment_home"
+        android:label="Dashboard Form"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/slide_menu_nav_category"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.CategoryFragment"
-        android:label="fragment_category"
+        android:label="Category Form"
         tools:layout="@layout/fragment_category" />
     <fragment
         android:id="@+id/slide_menu_nav_change_password"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.ChangePasswordFragment"
-        android:label="ChangePasswordFragment" >
+        android:label="Change Password" >
         <action
             android:id="@+id/action_slide_menu_nav_change_password_to_slide_menu_nav_home"
             app:destination="@id/slide_menu_nav_home" />
@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/slide_menu_nav_edit_profile"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.EditProfileFragment"
-        android:label="fragment_edit_profile"
+        android:label="Edit Profile"
         tools:layout="@layout/fragment_edit_profile" >
         <action
             android:id="@+id/action_slide_menu_nav_edit_profile_to_slide_menu_nav_home"
@@ -36,16 +36,16 @@
     <fragment
         android:id="@+id/slide_menu_nav_note"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.FragmentNote"
-        android:label="FragmentNote" />
+        android:label="Note Form" />
     <fragment
         android:id="@+id/slide_menu_nav_priority"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.PriorityFragment"
-        android:label="fragment_priority"
+        android:label="Priority Form"
         tools:layout="@layout/fragment_priority" />
     <fragment
         android:id="@+id/slide_menu_nav_status"
         android:name="com.r2s.notemanagementsystem.view.slidemenu.fragment.StatusFragment"
-        android:label="fragment_status"
+        android:label="Status Form"
         tools:layout="@layout/fragment_status" />
 
 

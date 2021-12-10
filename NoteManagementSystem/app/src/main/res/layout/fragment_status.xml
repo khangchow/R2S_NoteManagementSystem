@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.slidemenu.fragment.StatusFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -13,8 +14,10 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@android:drawable/ic_input_add"
-        android:contentDescription="@string/open_status_dialog"/>
+        android:src="@drawable/ic_add"
+        android:backgroundTint="@color/btn_floating_insert"
+        app:tint="#8BC34A"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_status"
