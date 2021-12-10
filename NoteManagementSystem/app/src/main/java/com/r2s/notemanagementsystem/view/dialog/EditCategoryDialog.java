@@ -16,6 +16,8 @@ import com.r2s.notemanagementsystem.databinding.DialogEditCategoryBinding;
 import com.r2s.notemanagementsystem.model.Category;
 import com.r2s.notemanagementsystem.viewmodel.CategoryViewModel;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class EditCategoryDialog extends DialogFragment implements View.OnClickListener {
@@ -72,7 +74,8 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
             case R.id.btnUpdate:
                 if (binding.btnUpdate.getText().toString().equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("cate_id");
-                    Category category = new Category(updateId, binding.etEditCate.getText().toString());
+                    String currentTime = getCurrentTime();
+                    Category category = new Category(updateId, binding.etEditCate.getText().toString(), currentTime);
 
                     mCateViewModel.updateCate(category);
                     dismiss();
@@ -82,5 +85,13 @@ public class EditCategoryDialog extends DialogFragment implements View.OnClickLi
                 dismiss();
                 break;
         }
+    }
+
+    /**
+     * get current time
+     * @return
+     */
+    private String getCurrentTime() {
+        return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 }

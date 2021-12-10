@@ -1,6 +1,6 @@
 package com.r2s.notemanagementsystem.view.slidemenu;
 
-import android.os.Bundle;
+import                                                      android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
@@ -12,7 +12,6 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.r2s.notemanagementsystem.R;
 import com.r2s.notemanagementsystem.constant.CategoryConstant;
 import com.r2s.notemanagementsystem.model.Status;
@@ -23,6 +22,7 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     PieChart pieChart;
     List<PieEntry> pieEntryList = new ArrayList<>();
+    List<Status> statuses;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -41,7 +41,7 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         pieChart = view.findViewById(R.id.pieChart);
-
+        statuses = new ArrayList<>();
         initView();
 
         return view;
@@ -58,11 +58,22 @@ public class HomeFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(pieEntryList,"Status");
         pieChart.setData(new PieData(pieDataSet));
 
+        // setting size of text
         pieDataSet.setValueTextSize(16f);
+
+        // Setting color for pie chart
         pieDataSet.setColors(CategoryConstant.COLOR_RGB);
+
+        // Delete the hole inside pie chart
         pieChart.setDrawHoleEnabled(false);
+
+        // Disable description
         pieChart.getDescription().setEnabled(false);
+
+        // Disable rotation
         pieChart.setRotationEnabled(false);
+
+        // load data
         pieChart.invalidate();
     }
 }

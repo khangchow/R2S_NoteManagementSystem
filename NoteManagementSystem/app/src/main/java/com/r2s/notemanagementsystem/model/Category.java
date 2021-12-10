@@ -23,9 +23,10 @@ public class Category {
      * Constructor
      * @param nameCate
      */
-    public Category(int cateId, String nameCate) {
+    public Category(int cateId, String nameCate, String createdDate) {
         this.cateId = cateId;
         this.nameCate = nameCate;
+        this.createdDate = createdDate;
     }
 
     /**
@@ -89,9 +90,6 @@ public class Category {
      * @param createdDate
      */
     public void setCreatedDate(String createdDate) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateTime = simpleDateFormat.format(Calendar.getInstance().getTime());
-        createdDate = dateTime;
         this.createdDate = createdDate;
     }
 }

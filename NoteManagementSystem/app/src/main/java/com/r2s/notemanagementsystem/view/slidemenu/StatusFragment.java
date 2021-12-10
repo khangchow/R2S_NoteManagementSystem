@@ -134,7 +134,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                     public void run() {
                         int position = viewHolder.getAdapterPosition();
                         List<Status> statuses = mStatusAdapter.getStatuses();
-//                        mDb.getStatusDao().deleteStatus(statuses.get(position));
+                        mDb.getStatusDao().deleteStatus(statuses.get(position));
                         statuses.remove(position);
                         retrieveStatuses();
                     }
