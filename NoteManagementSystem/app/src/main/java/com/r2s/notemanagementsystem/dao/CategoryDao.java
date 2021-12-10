@@ -18,7 +18,7 @@ public interface CategoryDao {
     LiveData<List<Category>> getAll();
 
     @Query("SELECT * FROM category_table WHERE cateId IN(:cateId)")
-    Category loadCateById(int cateId);
+    LiveData<List<Category>> loadCateById(int cateId);
 
     @Insert
     void insertCate(Category category);

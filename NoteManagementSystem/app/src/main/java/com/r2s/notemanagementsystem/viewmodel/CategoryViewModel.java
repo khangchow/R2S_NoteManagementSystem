@@ -27,10 +27,9 @@ public class CategoryViewModel extends AndroidViewModel {
 
     /**
      * return all category
-     * @param uId
      * @return
      */
-    public LiveData<List<Category>> loadAllCate(int uId) {
+    public LiveData<List<Category>> loadAllCate() {
         return mCates;
     }
 

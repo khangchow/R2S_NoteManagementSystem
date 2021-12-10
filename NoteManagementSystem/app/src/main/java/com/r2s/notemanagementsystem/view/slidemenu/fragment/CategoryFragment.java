@@ -69,7 +69,7 @@ public class CategoryFragment extends Fragment {
 
         mCateViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
 
-        mCateViewModel.loadAllCate(uId).observe(getActivity(), categories -> {
+        mCateViewModel.loadAllCate().observe(getActivity(), categories -> {
             mAdapter.setTasks(categories);
         });
 

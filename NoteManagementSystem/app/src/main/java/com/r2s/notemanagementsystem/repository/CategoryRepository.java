@@ -29,8 +29,10 @@ public class CategoryRepository {
         this.mDb = AppDatabase.getInstance(application);
 
         mUser = new Gson().fromJson(AppPrefsUtils.getString(Constants.KEY_USER_DATA), User.class);
+
         mCateDao = mDb.getCateDao();
-        mCates = mCateDao.getAll();
+
+        mCates = mCateDao.loadCateById(mUser.getUid());
     }
 
     /**
