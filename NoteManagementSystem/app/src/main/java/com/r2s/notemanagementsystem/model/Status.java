@@ -11,7 +11,8 @@ public class Status {
     private String createdDate;
     private int userId;
 
-    public Status(String name, String createdDate, int userId) {
+    public Status(int id, String name, String createdDate, int userId) {
+        this.id = id;
         this.name = name;
         this.createdDate = createdDate;
         this.userId = userId;

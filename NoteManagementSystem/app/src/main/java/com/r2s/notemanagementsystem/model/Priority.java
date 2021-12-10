@@ -11,7 +11,8 @@ public class Priority {
     private String createdDate;
     private int userId;
 
-    public Priority(String name, String createdDate, int userId) {
+    public Priority(int id, String name, String createdDate, int userId) {
+        this.id = id;
         this.name = name;
         this.createdDate = createdDate;
         this.userId = userId;

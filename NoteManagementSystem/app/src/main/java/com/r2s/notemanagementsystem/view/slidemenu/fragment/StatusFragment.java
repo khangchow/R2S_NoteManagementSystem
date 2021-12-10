@@ -147,7 +147,7 @@ public class StatusFragment extends Fragment implements View.OnClickListener {
                     }
                 });
             }
-        });
+        }).attachToRecyclerView(binding.rvStatus);
     }
 
     /**

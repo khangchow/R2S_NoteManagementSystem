@@ -101,13 +101,13 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
      */
     @Override
     public void onClick(View view) {
-        final Priority priority = new Priority(binding.etPriority.getText().toString(),
-                getCurrentLocalDateTimeStamp(), mUser.getUid());
-
         switch (view.getId()) {
             case R.id.btn_add_priority:
                 if (binding.btnAddPriority.getText().toString()
                         .equalsIgnoreCase("add")) {
+                    final Priority priority = new Priority(0,
+                            binding.etPriority.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
                     mPriorityViewModel.insertPriority(priority);
 
                     Toast.makeText(getActivity(), "Create " +
@@ -118,7 +118,10 @@ public class PriorityDialog extends DialogFragment implements View.OnClickListen
                 if (binding.btnAddPriority.getText().toString()
                         .equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("priority_id");
-                    priority.setId(updateId);
+
+                    final Priority priority = new Priority(updateId,
+                            binding.etPriority.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
 
                     mPriorityViewModel.updatePriority(priority);
 

@@ -101,13 +101,12 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
      */
     @Override
     public void onClick(View view) {
-        final Status status = new Status(binding.etStatus.getText().toString(),
-                getCurrentLocalDateTimeStamp(), mUser.getUid());
-
         switch (view.getId()) {
             case R.id.btn_add_status:
                 if (binding.btnAddStatus.getText().toString()
                         .equalsIgnoreCase("add")) {
+                    final Status status = new Status(0, binding.etStatus.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
                     mStatusViewModel.insertStatus(status);
 
                     Toast.makeText(getActivity(), "Create " +
@@ -118,7 +117,10 @@ public class StatusDialog extends DialogFragment implements View.OnClickListener
                 if (binding.btnAddStatus.getText().toString()
                         .equalsIgnoreCase("update")) {
                     int updateId = bundle.getInt("status_id");
-                    status.setId(updateId);
+                    final Status status = new Status(updateId,
+                            binding.etStatus.getText().toString(),
+                            getCurrentLocalDateTimeStamp(), mUser.getUid());
+                    mStatusViewModel.insertStatus(status);
 
                     mStatusViewModel.updateStatus(status);
 
