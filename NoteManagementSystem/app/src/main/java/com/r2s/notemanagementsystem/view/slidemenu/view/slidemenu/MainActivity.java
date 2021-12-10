@@ -1,4 +1,8 @@
-package com.r2s.notemanagementsystem.view.slidemenu;
+package com.r2s.notemanagementsystem.view.slidemenu.view.slidemenu;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -8,10 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 import com.r2s.notemanagementsystem.R;
@@ -89,6 +89,18 @@ public class MainActivity extends AppCompatActivity
                 navController.navigateUp();
 
                 navController.navigate(R.id.action_homeFragment_to_noteFragment);
+
+                break;
+
+            case R.id.slide_menu_nav_edit_profile:
+                navController.navigateUp();
+                navController.navigate(R.id.action_homeFragment_to_editProfileFragment);
+
+                break;
+
+            case R.id.slide_menu_nav_change_password:
+                navController.navigateUp();
+                navController.navigate(R.id.action_homeFragment_to_changePasswordFragment);
                 break;
         }
 
@@ -118,6 +130,5 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         }
     }
-
 
 }

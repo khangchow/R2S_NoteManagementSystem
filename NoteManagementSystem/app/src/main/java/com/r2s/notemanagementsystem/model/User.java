@@ -1,38 +1,48 @@
-package com.r2s.notemanagementsystem.model;
+ package com.r2s.notemanagementsystem.model;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "user_table")
+@Entity( tableName = "user_table" )
 public class User {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
-    private String email;
-    private String pass;
 
-    @ColumnInfo(name = "first_name", defaultValue = "NULL")
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+
+    @ColumnInfo(name = "email")
+    private String email;
+
+    @ColumnInfo(name = "password")
+    private String password;
+
+    @ColumnInfo(name = "first_name")
     @Nullable
     private String firstName;
 
-    @ColumnInfo(name = "last_name", defaultValue = "NULL")
+    @ColumnInfo(name = "last_name")
     @Nullable
     private String lastName;
 
-    public User(int id, String email, String pass) {
+    public User(){
+
+    }
+
+    public User(String email, String password) {
         this.email = email;
-        this.pass = pass;
+        this.password = password;
     }
 
-    public User(){}
-
-    public int getId() {
-        return id;
+    public User(int i, String toString, String toString1) {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getEmail() {
@@ -43,29 +53,27 @@ public class User {
         this.email = email;
     }
 
-    public String getPass() {
-        return pass;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPass(String pass) {
-        this.pass = pass;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @Nullable
     public String getFirstName() {
         return firstName;
     }
 
-    public void setFirstName(@Nullable String firstName) {
+    public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    @Nullable
     public String getLastName() {
         return lastName;
     }
 
-    public void setLastName(@Nullable String lastName) {
+    public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 }

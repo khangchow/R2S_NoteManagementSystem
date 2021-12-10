@@ -1,8 +1,7 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Note Management System</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="hello_blank_fragment">hi</string>
     <string name="name_category">Name category</string>
     <string name="created_date">Created date</string>
     <string name="category_form">Category form</string>
@@ -14,6 +13,20 @@
     <string name="update">Update</string>
 
     <!-- Note fragment-->
+    <!-- TODO: Remove or change this placeholder text -->
+
+    <string name="app_editprofile">Edit profile</string>
+    <string name="app_etfirstname">Enter you first name</string>
+    <string name="app_etlastname">Enter you last name</string>
+    <string name="app_etemail">Enter you email</string>
+    <string name="app_btnChange">Change</string>
+    <string name="app_btnHome">Home</string>
+
+    <string name="app_changepassword">Change your password</string>
+    <string name="app_etcurrent">Enter current password </string>
+    <string name="app_etnewpassword">Enter new password</string>
+    <string name="app_etpasswordagain">Enter password again</string>
+
     <string name="description_fab">add</string>
     <string name="edt_hint_enter_note_name">Enter note name</string>
     <string name="hint_auto_complete_category">Select category</string>

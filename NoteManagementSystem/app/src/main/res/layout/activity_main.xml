@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.slidemenu.MainActivity"
+    tools:context=".view.slidemenu.view.slidemenu.MainActivity"
     android:id="@+id/activity_main_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start">
@@ -30,7 +30,8 @@
             app:navigationIcon="@drawable/ic_menu"
             android:id="@+id/activity_main_toolbar"
             android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme"/>
+            android:theme="?attr/actionBarTheme"
+            android:background="@color/tool_bar_bg"/>
 
         <fragment
             android:id="@+id/activity_main_fragment_container"
