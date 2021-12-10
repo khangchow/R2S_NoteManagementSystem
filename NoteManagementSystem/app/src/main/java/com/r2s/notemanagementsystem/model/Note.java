@@ -12,16 +12,29 @@ public class Note implements Serializable {
 
     private String name;
     private String category;
+    private String priority;
     private String status;
     private String planDate;
     private String createdDate;
+    private int userId;
 
-    public Note(String name, String category, String status, String planDate, String createdDate) {
+    public Note(int nid, String name, String category, String priority, String status, String planDate, String createdDate, int userId) {
+        this.nid = nid;
         this.name = name;
         this.category = category;
+        this.priority = priority;
         this.status = status;
         this.planDate = planDate;
         this.createdDate = createdDate;
+        this.userId = userId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public int getNid() {
@@ -38,6 +51,14 @@ public class Note implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
     }
 
     public String getCategory() {
