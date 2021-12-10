@@ -1,11 +1,11 @@
-package com.r2s.notemanagementsystem.model;
+ package com.r2s.notemanagementsystem.model;
 
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity( tableName = "users" )
+@Entity( tableName = "user_table" )
 public class User {
 
     @PrimaryKey(autoGenerate = true)

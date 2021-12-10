@@ -10,7 +10,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Demo">
         <activity
-            android:name=".view.slidemenu.view.LoginActivity"
+            android:name=".view.slidemenu.LoginActivity"
+            android:name=".view.RegisterActivity"
+            android:exported="true" />
+        <activity
+            android:name=".view.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,11 +23,10 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".view.slidemenu.view.slidemenu.MainActivity"
-            android:exported="true">
 
         </activity>
+            android:name=".view.slidemenu.MainActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
